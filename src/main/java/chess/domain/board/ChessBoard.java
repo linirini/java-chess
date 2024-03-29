@@ -33,12 +33,17 @@ public class ChessBoard {
         Position source = Position.of(from);
         Position target = Position.of(to);
 
+        validate(turn, source, target);
+
+        updateBoard(source, target);
+        turn.next();
+    }
+
+    private void validate(final Turn turn, final Position source, final Position target) {
         validatePosition(source, target);
         validateTarget(source, target);
         validateTurn(source, turn);
         validateMovement(source, target);
-
-        updateBoard(source, target);
     }
 
     private void validatePosition(final Position source, final Position target) {
@@ -50,10 +55,6 @@ public class ChessBoard {
         if (!isExist(source)) {
             throw new IllegalArgumentException(INVALID_SOURCE);
         }
-    }
-
-    private boolean isExist(final Position position) {
-        return board.containsKey(position);
     }
 
     private void validateIdentity(final Position source, final Position target) {
@@ -101,6 +102,10 @@ public class ChessBoard {
             nextPosition = nextPosition.move(direction);
         }
         return route;
+    }
+
+    private boolean isExist(final Position position) {
+        return board.containsKey(position);
     }
 
     private void updateBoard(final Position source, final Position target) {

@@ -1,6 +1,5 @@
-package chess.domain;
+package chess.domain.position;
 
-import chess.domain.position.ChessDirection;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

@@ -53,7 +53,6 @@ public class ChessGame {
         CommandInfo commandInfo = requestUntilValid(this::requestMove);
         while (commandInfo.type().isMove()) {
             playTurn(turn, chessBoard, commandInfo);
-            turn.next();
             commandInfo = requestUntilValid(this::requestMove);
         }
     }
