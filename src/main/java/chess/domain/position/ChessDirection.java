@@ -1,5 +1,6 @@
 package chess.domain.position;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -58,36 +59,36 @@ public enum ChessDirection {
         return rankDiff == 0 && fileDiff != 0;
     }
 
-    private static List<ChessDirection> LShapedDirections() {
+    public static List<ChessDirection> LShapedDirections() {
         return List.of(UP_UP_LEFT, UP_UP_RIGHT, RIGHT_RIGHT_UP, RIGHT_RIGHT_DOWN, LEFT_LEFT_DOWN, LEFT_LEFT_UP, DOWN_DOWN_LEFT, DOWN_DOWN_RIGHT);
     }
 
-    private static List<ChessDirection> diagonal() {
+    public static List<ChessDirection> diagonal() {
         return List.of(UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT);
     }
 
-    private static List<ChessDirection> cross() {
+    public static List<ChessDirection> cross() {
         return List.of(UP, DOWN, RIGHT, LEFT);
     }
 
-    private static List<ChessDirection> upSide() {
+    public static List<ChessDirection> upSide() {
         return List.of(UP, UP_LEFT, UP_RIGHT);
     }
 
-    private static List<ChessDirection> downSide() {
+    public static List<ChessDirection> downSide() {
         return List.of(DOWN, DOWN_LEFT, DOWN_RIGHT);
     }
 
-    public boolean isLShaped() {
-        return LShapedDirections().contains(this);
+    public static List<ChessDirection> combine(List<ChessDirection> ... directions) {
+        List<ChessDirection> combinedDirections = new ArrayList<>();
+        for (final List<ChessDirection> chessDirections : directions) {
+            combinedDirections.addAll(chessDirections);
+        }
+        return combinedDirections;
     }
 
     public boolean isDiagonal() {
         return diagonal().contains(this);
-    }
-
-    public boolean isCross() {
-        return cross().contains(this);
     }
 
     public boolean isUpSide() {

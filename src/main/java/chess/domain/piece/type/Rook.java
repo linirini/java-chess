@@ -20,7 +20,7 @@ public final class Rook extends Piece {
 
     private boolean isMovableDirection(final Position source, final Position target) {
         ChessDirection chessDirection = findDirection(source, target);
-        return chessDirection.isCross();
+        return type.contains(chessDirection);
     }
 
     private ChessDirection findDirection(final Position source, final Position target) {

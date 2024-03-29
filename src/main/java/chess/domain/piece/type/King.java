@@ -19,7 +19,7 @@ public final class King extends Piece {
 
     private boolean isMovableDirection(final Position source, final Position target) {
         ChessDirection chessDirection = findDirection(source, target);
-        return chessDirection.isDiagonal() || chessDirection.isCross();
+        return type.contains(chessDirection);
     }
 
     private boolean isMovableDistance(final Position source, final Position target) {

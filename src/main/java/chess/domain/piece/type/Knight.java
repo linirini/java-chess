@@ -19,7 +19,7 @@ public final class Knight extends Piece {
 
     public boolean isLShapeMovement(final Position source, final Position target) {
         ChessDirection chessDirection = findDirection(source, target);
-        return chessDirection.isLShaped();
+        return type.contains(chessDirection);
     }
 
     private ChessDirection findDirection(final Position source, final Position target) {
