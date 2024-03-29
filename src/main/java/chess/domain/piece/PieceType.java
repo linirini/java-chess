@@ -9,8 +9,8 @@ public enum PieceType {
     ROOK(ChessDirection.cross(), 5),
     KNIGHT(ChessDirection.LShapedDirections(), 2.5),
     BISHOP(ChessDirection.diagonal(), 3),
-    KING(ChessDirection.combine(ChessDirection.cross(),ChessDirection.diagonal()), 0),
-    QUEEN(ChessDirection.combine(ChessDirection.cross(),ChessDirection.diagonal()), 9);
+    KING(ChessDirection.combine(ChessDirection.cross(), ChessDirection.diagonal()), 0),
+    QUEEN(ChessDirection.combine(ChessDirection.cross(), ChessDirection.diagonal()), 9);
 
     private final List<ChessDirection> directions;
     private final double score;
@@ -20,7 +20,7 @@ public enum PieceType {
         this.score = score;
     }
 
-    public boolean contains(ChessDirection direction){
+    public boolean contains(ChessDirection direction) {
         return directions.contains(direction);
     }
 
@@ -28,7 +28,7 @@ public enum PieceType {
         return score;
     }
 
-    public double halfScore(){
-        return score/2;
+    public double halfScore() {
+        return score / 2;
     }
 }

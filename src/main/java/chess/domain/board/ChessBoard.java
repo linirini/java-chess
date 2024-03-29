@@ -81,7 +81,7 @@ public class ChessBoard {
     private void validateMovement(final Position source, final Position target) {
         Piece sourcePiece = board.get(source);
         PieceRelation relation = PieceRelation.determine(sourcePiece, board.get(target));
-        if (!sourcePiece.isMovable(source, target, relation) || isBlocked(source,target)) {
+        if (!sourcePiece.isMovable(source, target, relation) || isBlocked(source, target)) {
             throw new IllegalArgumentException(INVALID_MOVEMENT);
         }
     }
@@ -97,7 +97,7 @@ public class ChessBoard {
         ChessDirection direction = ChessDirection.findDirection(fileDiff, rankDiff);
         List<Position> route = new ArrayList<>();
         Position nextPosition = source.move(direction);
-        while(nextPosition!=target) {
+        while (nextPosition != target) {
             route.add(nextPosition);
             nextPosition = nextPosition.move(direction);
         }

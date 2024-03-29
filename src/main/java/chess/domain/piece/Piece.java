@@ -22,7 +22,9 @@ public abstract class Piece {
         return color;
     }
 
-    public PieceType type() {return type;}
+    public PieceType type() {
+        return type;
+    }
 
     public double score() {
         return type.score();

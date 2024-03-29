@@ -79,7 +79,7 @@ public enum ChessDirection {
         return List.of(DOWN, DOWN_LEFT, DOWN_RIGHT);
     }
 
-    public static List<ChessDirection> combine(List<ChessDirection> ... directions) {
+    public static List<ChessDirection> combine(List<ChessDirection>... directions) {
         List<ChessDirection> combinedDirections = new ArrayList<>();
         for (final List<ChessDirection> chessDirections : directions) {
             combinedDirections.addAll(chessDirections);

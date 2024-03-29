@@ -3,7 +3,10 @@ package chess.domain.piece.type;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
 import chess.domain.piece.PieceType;
-import chess.domain.position.*;
+import chess.domain.position.ChessDirection;
+import chess.domain.position.ChessRank;
+import chess.domain.position.PieceRelation;
+import chess.domain.position.Position;
 
 public final class Pawn extends Piece {
 
@@ -41,7 +44,7 @@ public final class Pawn extends Piece {
 
     private boolean isMovableDistance(final Position source, final Position target) {
         int distance = source.calculateDistanceTo(target);
-        ChessDirection chessDirection = findDirection(source,target);
+        ChessDirection chessDirection = findDirection(source, target);
         if (color.isWhite() && source.isRank(ChessRank.TWO) && chessDirection == ChessDirection.UP) {
             return (distance == 1 || distance == 2);
         }

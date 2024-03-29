@@ -13,9 +13,14 @@ public class Score {
     }
 
     private void validate(final double score) {
-        if(score<0){
+        if (score < 0) {
             throw new IllegalArgumentException(INVALID_SCORE);
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(score);
     }
 
     @Override
@@ -24,10 +29,5 @@ public class Score {
         if (o == null || getClass() != o.getClass()) return false;
         final Score score1 = (Score) o;
         return Double.compare(score1.score, score) == 0;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(score);
     }
 }

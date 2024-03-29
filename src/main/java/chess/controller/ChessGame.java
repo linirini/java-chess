@@ -3,8 +3,8 @@ package chess.controller;
 import chess.domain.Turn;
 import chess.domain.board.ChessBoard;
 import chess.domain.board.ChessBoardGenerator;
-import chess.dto.PieceInfos;
 import chess.dto.CommandInfo;
+import chess.dto.PieceInfos;
 import chess.view.InputView;
 import chess.view.OutputView;
 

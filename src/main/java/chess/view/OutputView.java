@@ -2,8 +2,8 @@ package chess.view;
 
 import chess.domain.position.ChessFile;
 import chess.domain.position.ChessRank;
-import chess.dto.PieceInfos;
 import chess.dto.PieceInfo;
+import chess.dto.PieceInfos;
 
 import java.util.Arrays;
 import java.util.StringJoiner;
