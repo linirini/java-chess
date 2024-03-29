@@ -1,15 +1,16 @@
 package chess.domain.board;
 
-import chess.domain.PieceRelation;
 import chess.domain.Turn;
 import chess.domain.piece.Piece;
-import chess.domain.position.Movement;
+import chess.domain.position.ChessDirection;
+import chess.domain.position.PieceRelation;
 import chess.domain.position.Position;
 import chess.dto.BoardStatus;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class ChessBoard {
     private static final String INVALID_SOURCE = "source에 이동할 수 있는 기물이 존재하지 않습니다.";
@@ -77,17 +78,29 @@ public class ChessBoard {
     }
 
     private void validateMovement(final Position source, final Position target) {
-        Movement movement = new Movement(source, target);
         Piece sourcePiece = board.get(source);
         PieceRelation relation = PieceRelation.determine(sourcePiece, board.get(target));
-        Set<Position> route = movement.findRouteBetween();
-        if (!sourcePiece.isMovable(movement, relation, isOpened(route))) {
+        if (!sourcePiece.isMovable(source, target, relation) || isBlocked(source,target)) {
             throw new IllegalArgumentException(INVALID_MOVEMENT);
         }
     }
 
-    private boolean isOpened(final Set<Position> route) {
-        return route.stream().noneMatch(board::containsKey);
+    private boolean isBlocked(final Position source, Position target) {
+        List<Position> route = findRouteBetween(source, target);
+        return route.stream().anyMatch(this::isExist);
+    }
+
+    private List<Position> findRouteBetween(final Position source, final Position target) {
+        int fileDiff = source.calculateFileDifferenceTo(target);
+        int rankDiff = source.calculateRankDifferenceTo(target);
+        ChessDirection direction = ChessDirection.findDirection(fileDiff, rankDiff);
+        List<Position> route = new ArrayList<>();
+        Position nextPosition = source.move(direction);
+        while(nextPosition!=target) {
+            route.add(nextPosition);
+            nextPosition = nextPosition.move(direction);
+        }
+        return route;
     }
 
     private void updateBoard(final Position source, final Position target) {

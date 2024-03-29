@@ -42,13 +42,7 @@ public enum ChessFile {
     }
 
     public ChessFile move(final ChessDirection chessDirection) {
-        if (chessDirection.isLeftSide()) {
-            return findByIndex(this.index - 1);
-        }
-        if (chessDirection.isVertical()) {
-            return this;
-        }
-        return findByIndex(this.index + 1);
+        return findByIndex(this.index + chessDirection.x());
     }
 
     public int index() {

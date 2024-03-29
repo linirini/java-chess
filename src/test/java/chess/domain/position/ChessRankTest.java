@@ -22,7 +22,15 @@ class ChessRankTest {
                 Arguments.arguments(ChessRank.SIX, ChessDirection.DOWN_LEFT, ChessRank.FIVE),
                 Arguments.arguments(ChessRank.SIX, ChessDirection.DOWN_RIGHT, ChessRank.FIVE),
                 Arguments.arguments(ChessRank.SIX, ChessDirection.UP_LEFT, ChessRank.SEVEN),
-                Arguments.arguments(ChessRank.SIX, ChessDirection.UP_RIGHT, ChessRank.SEVEN)
+                Arguments.arguments(ChessRank.SIX, ChessDirection.UP_RIGHT, ChessRank.SEVEN),
+                Arguments.arguments(ChessRank.SIX, ChessDirection.UP_UP_LEFT, ChessRank.EIGHT),
+                Arguments.arguments(ChessRank.SIX, ChessDirection.UP_UP_RIGHT, ChessRank.EIGHT),
+                Arguments.arguments(ChessRank.SIX, ChessDirection.DOWN_DOWN_LEFT, ChessRank.FOUR),
+                Arguments.arguments(ChessRank.SIX, ChessDirection.DOWN_DOWN_RIGHT, ChessRank.FOUR),
+                Arguments.arguments(ChessRank.SIX, ChessDirection.RIGHT_RIGHT_UP, ChessRank.SEVEN),
+                Arguments.arguments(ChessRank.SIX, ChessDirection.RIGHT_RIGHT_DOWN, ChessRank.FIVE),
+                Arguments.arguments(ChessRank.SIX, ChessDirection.LEFT_LEFT_UP, ChessRank.SEVEN),
+                Arguments.arguments(ChessRank.SIX, ChessDirection.LEFT_LEFT_DOWN, ChessRank.FIVE)
         );
     }
 

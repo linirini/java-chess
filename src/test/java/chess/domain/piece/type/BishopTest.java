@@ -2,11 +2,9 @@ package chess.domain.piece.type;
 
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
-import chess.domain.PieceRelation;
-import chess.domain.position.Movement;
+import chess.domain.position.PieceRelation;
 import chess.domain.position.Position;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -41,12 +39,10 @@ class BishopTest {
     void cannotBishopMoveCross(Position source, Position target) {
         // given
         Piece bishop = new Bishop(PieceColor.BLACK);
-        Movement movement = new Movement(source, target);
-        PieceRelation targetStatus = PieceRelation.NONE;
-        boolean isOpened = true;
+        PieceRelation relation = PieceRelation.NONE;
 
         // when
-        boolean result = bishop.isMovable(movement, targetStatus, isOpened);
+        boolean result = bishop.isMovable(source, target, relation);
 
         // then
         assertThat(result).isFalse();
@@ -58,27 +54,12 @@ class BishopTest {
     void canBishopMoveDiagonal(Position source, Position target) {
         // given
         Piece bishop = new Bishop(PieceColor.BLACK);
-        Movement movement = new Movement(source, target);
-        PieceRelation targetStatus = PieceRelation.NONE;
-        boolean isOpened = true;
+        PieceRelation relation = PieceRelation.NONE;
 
         // when
-        boolean result = bishop.isMovable(movement, targetStatus, isOpened);
+        boolean result = bishop.isMovable(source, target, relation);
 
         // then
         assertThat(result).isTrue();
-    }
-
-    @DisplayName("비숍은 Source와 Target 사이에 다른 기물이 존재하면 이동할 수 없다.")
-    @Test
-    void cannotBishopMove() {
-        // given
-        Piece bishop = new Bishop(PieceColor.BLACK);
-        Movement movement = new Movement(Position.of("d4"), Position.of("d3"));
-        PieceRelation targetStatus = PieceRelation.NONE;
-        boolean isOpened = false;
-
-        // when & then
-        assertThat(bishop.isMovable(movement, targetStatus, isOpened)).isFalse();
     }
 }

@@ -2,8 +2,7 @@ package chess.domain.piece.type;
 
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
-import chess.domain.PieceRelation;
-import chess.domain.position.Movement;
+import chess.domain.position.PieceRelation;
 import chess.domain.position.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,12 +18,10 @@ class PawnTest {
         Piece pawn = new Pawn(PieceColor.BLACK);
         Position source = Position.of("a6");
         Position target = Position.of("a5");
-        Movement movement = new Movement(source, target);
-        PieceRelation targetStatus = PieceRelation.NONE;
-        boolean isOpened = true;
+        PieceRelation relation = PieceRelation.NONE;
 
         // when
-        boolean result = pawn.isMovable(movement, targetStatus, isOpened);
+        boolean result = pawn.isMovable(source, target, relation);
 
         // then
         assertThat(result).isTrue();
@@ -37,12 +34,10 @@ class PawnTest {
         Piece pawn = new Pawn(PieceColor.WHITE);
         Position source = Position.of("a2");
         Position target = Position.of("a3");
-        Movement movement = new Movement(source, target);
-        PieceRelation targetStatus = PieceRelation.NONE;
-        boolean isOpened = true;
+        PieceRelation relation = PieceRelation.NONE;
 
         // when
-        boolean result = pawn.isMovable(movement, targetStatus, isOpened);
+        boolean result = pawn.isMovable(source, target, relation);
 
         // then
         assertThat(result).isTrue();
@@ -55,12 +50,10 @@ class PawnTest {
         Piece pawn = new Pawn(PieceColor.BLACK);
         Position source = Position.of("a6");
         Position target = Position.of("a5");
-        Movement movement = new Movement(source, target);
-        PieceRelation targetStatus = PieceRelation.ENEMY;
-        boolean isOpened = true;
+        PieceRelation relation = PieceRelation.ENEMY;
 
         // when
-        boolean result = pawn.isMovable(movement, targetStatus, isOpened);
+        boolean result = pawn.isMovable(source, target, relation);
 
         // then
         assertThat(result).isFalse();
@@ -73,12 +66,10 @@ class PawnTest {
         Piece pawn = new Pawn(PieceColor.WHITE);
         Position source = Position.of("a2");
         Position target = Position.of("a3");
-        Movement movement = new Movement(source, target);
-        PieceRelation targetStatus = PieceRelation.ENEMY;
-        boolean isOpened = true;
+        PieceRelation relation = PieceRelation.ENEMY;
 
         // when
-        boolean result = pawn.isMovable(movement, targetStatus, isOpened);
+        boolean result = pawn.isMovable(source, target, relation);
 
         // then
         assertThat(result).isFalse();
@@ -91,12 +82,10 @@ class PawnTest {
         Piece pawn = new Pawn(PieceColor.BLACK);
         Position source = Position.of("a7");
         Position target = Position.of("a5");
-        Movement movement = new Movement(source, target);
-        PieceRelation targetStatus = PieceRelation.NONE;
-        boolean isOpened = true;
+        PieceRelation relation = PieceRelation.NONE;
 
         // when
-        boolean result = pawn.isMovable(movement, targetStatus, isOpened);
+        boolean result = pawn.isMovable(source, target, relation);
 
         // then
         assertThat(result).isTrue();
@@ -109,13 +98,10 @@ class PawnTest {
         Piece pawn = new Pawn(PieceColor.WHITE);
         Position source = Position.of("a2");
         Position target = Position.of("a4");
-        Movement movement = new Movement(source, target);
-        PieceRelation targetStatus = PieceRelation.NONE;
-        boolean isOpened = true;
+        PieceRelation relation = PieceRelation.NONE;
 
         // when
-        boolean result = pawn.isMovable(movement, targetStatus, isOpened);
-
+        boolean result = pawn.isMovable(source, target, relation);
         // then
         assertThat(result).isTrue();
     }
@@ -127,12 +113,10 @@ class PawnTest {
         Piece pawn = new Pawn(PieceColor.BLACK);
         Position source = Position.of("a6");
         Position target = Position.of("a4");
-        Movement movement = new Movement(source, target);
-        PieceRelation targetStatus = PieceRelation.NONE;
-        boolean isOpened = true;
+        PieceRelation relation = PieceRelation.NONE;
 
         // when
-        boolean result = pawn.isMovable(movement, targetStatus, isOpened);
+        boolean result = pawn.isMovable(source, target, relation);
 
         // then
         assertThat(result).isFalse();
@@ -145,12 +129,10 @@ class PawnTest {
         Piece pawn = new Pawn(PieceColor.WHITE);
         Position source = Position.of("a3");
         Position target = Position.of("a5");
-        Movement movement = new Movement(source, target);
-        PieceRelation targetStatus = PieceRelation.NONE;
-        boolean isOpened = true;
+        PieceRelation relation = PieceRelation.NONE;
 
         // when
-        boolean result = pawn.isMovable(movement, targetStatus, isOpened);
+        boolean result = pawn.isMovable(source, target, relation);
 
         // then
         assertThat(result).isFalse();
@@ -163,12 +145,10 @@ class PawnTest {
         Piece pawn = new Pawn(PieceColor.WHITE);
         Position source = Position.of("a3");
         Position target = Position.of("b4");
-        Movement movement = new Movement(source, target);
-        PieceRelation targetStatus = PieceRelation.ENEMY;
-        boolean isOpened = true;
+        PieceRelation relation = PieceRelation.ENEMY;
 
         // when
-        boolean result = pawn.isMovable(movement, targetStatus, isOpened);
+        boolean result = pawn.isMovable(source, target, relation);
 
         // then
         assertThat(result).isTrue();
@@ -181,12 +161,10 @@ class PawnTest {
         Piece pawn = new Pawn(PieceColor.BLACK);
         Position source = Position.of("b7");
         Position target = Position.of("a6");
-        Movement movement = new Movement(source, target);
-        PieceRelation targetStatus = PieceRelation.ENEMY;
-        boolean isOpened = true;
+        PieceRelation relation = PieceRelation.ENEMY;
 
         // when
-        boolean result = pawn.isMovable(movement, targetStatus, isOpened);
+        boolean result = pawn.isMovable(source, target, relation);
 
         // then
         assertThat(result).isTrue();
@@ -199,12 +177,10 @@ class PawnTest {
         Piece pawn = new Pawn(PieceColor.WHITE);
         Position source = Position.of("a2");
         Position target = Position.of("b3");
-        Movement movement = new Movement(source, target);
-        PieceRelation targetStatus = PieceRelation.NONE;
-        boolean isOpened = true;
+        PieceRelation relation = PieceRelation.NONE;
 
         // when
-        boolean result = pawn.isMovable(movement, targetStatus, isOpened);
+        boolean result = pawn.isMovable(source, target, relation);
 
         // then
         assertThat(result).isFalse();
@@ -217,27 +193,12 @@ class PawnTest {
         Piece pawn = new Pawn(PieceColor.BLACK);
         Position source = Position.of("a7");
         Position target = Position.of("b6");
-        Movement movement = new Movement(source, target);
-        PieceRelation targetStatus = PieceRelation.NONE;
-        boolean isOpened = true;
+        PieceRelation relation = PieceRelation.NONE;
 
         // when
-        boolean result = pawn.isMovable(movement, targetStatus, isOpened);
+        boolean result = pawn.isMovable(source, target, relation);
 
         // then
         assertThat(result).isFalse();
-    }
-
-    @DisplayName("폰는 Source와 Target 사이에 다른 기물이 존재하면 이동할 수 없다.")
-    @Test
-    void cannotPawnMove() {
-        // given
-        Piece pawn = new Pawn(PieceColor.BLACK);
-        Movement movement = new Movement(Position.of("d4"), Position.of("c4"));
-        PieceRelation targetStatus = PieceRelation.NONE;
-        boolean isOpened = false;
-
-        // when & then
-        assertThat(pawn.isMovable(movement, targetStatus, isOpened)).isFalse();
     }
 }

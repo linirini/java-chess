@@ -2,10 +2,11 @@ package chess.domain.piece.type;
 
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
-import chess.domain.PieceRelation;
 import chess.domain.piece.PieceType;
 import chess.domain.position.ChessDirection;
-import chess.domain.position.Movement;
+import chess.domain.position.PieceRelation;
+import chess.domain.position.Position;
+
 
 public final class Queen extends Piece {
 
@@ -14,11 +15,18 @@ public final class Queen extends Piece {
     }
 
     @Override
-    public boolean isMovable(final Movement movement, final PieceRelation pieceRelation, final boolean isOpened) {
-        return isMovableDirection(movement.findDirection()) && isOpened;
+    public boolean isMovable(final Position source, final Position target, final PieceRelation pieceRelation) {
+        return isMovableDirection(source, target);
     }
 
-    private boolean isMovableDirection(final ChessDirection chessDirection) {
+    private boolean isMovableDirection(final Position source, final Position target) {
+        ChessDirection chessDirection = findDirection(source, target);
         return chessDirection.isDiagonal() || chessDirection.isCross();
+    }
+
+    private ChessDirection findDirection(final Position source, final Position target) {
+        int fileDifference = source.calculateFileDifferenceTo(target);
+        int rankDifference = source.calculateRankDifferenceTo(target);
+        return ChessDirection.findDirection(fileDifference, rankDifference);
     }
 }

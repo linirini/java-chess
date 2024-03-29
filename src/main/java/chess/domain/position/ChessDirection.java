@@ -58,35 +58,55 @@ public enum ChessDirection {
         return rankDiff == 0 && fileDiff != 0;
     }
 
+    private static List<ChessDirection> LShapedDirections() {
+        return List.of(UP_UP_LEFT, UP_UP_RIGHT, RIGHT_RIGHT_UP, RIGHT_RIGHT_DOWN, LEFT_LEFT_DOWN, LEFT_LEFT_UP, DOWN_DOWN_LEFT, DOWN_DOWN_RIGHT);
+    }
+
+    private static List<ChessDirection> diagonal() {
+        return List.of(UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT);
+    }
+
+    private static List<ChessDirection> cross() {
+        return List.of(UP, DOWN, RIGHT, LEFT);
+    }
+
+    private static List<ChessDirection> upSide() {
+        return List.of(UP, UP_LEFT, UP_RIGHT);
+    }
+
+    private static List<ChessDirection> downSide() {
+        return List.of(DOWN, DOWN_LEFT, DOWN_RIGHT);
+    }
+
     public boolean isLShaped() {
-        return List.of(UP_UP_LEFT, UP_UP_RIGHT, RIGHT_RIGHT_UP, RIGHT_RIGHT_DOWN, LEFT_LEFT_DOWN, LEFT_LEFT_UP, DOWN_DOWN_LEFT, DOWN_DOWN_RIGHT).contains(this);
+        return LShapedDirections().contains(this);
     }
 
     public boolean isDiagonal() {
-        return List.of(UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT).contains(this);
+        return diagonal().contains(this);
     }
 
     public boolean isCross() {
-        return List.of(UP, DOWN, RIGHT, LEFT).contains(this);
+        return cross().contains(this);
+    }
+
+    public boolean isUpSide() {
+        return upSide().contains(this);
+    }
+
+    public boolean isDownSide() {
+        return downSide().contains(this);
     }
 
     public boolean isVertical() {
         return List.of(UP, DOWN).contains(this);
     }
 
-    public boolean isHorizontal() {
-        return List.of(LEFT, RIGHT).contains(this);
+    public int x() {
+        return x;
     }
 
-    public boolean isUpSide() {
-        return List.of(UP, UP_LEFT, UP_RIGHT).contains(this);
-    }
-
-    public boolean isDownSide() {
-        return List.of(DOWN, DOWN_LEFT, DOWN_RIGHT).contains(this);
-    }
-
-    public boolean isLeftSide() {
-        return List.of(LEFT, UP_LEFT, DOWN_LEFT).contains(this);
+    public int y() {
+        return y;
     }
 }

@@ -22,7 +22,15 @@ class ChessFileTest {
                 Arguments.arguments(ChessFile.C, ChessDirection.DOWN_LEFT, ChessFile.B),
                 Arguments.arguments(ChessFile.C, ChessDirection.DOWN_RIGHT, ChessFile.D),
                 Arguments.arguments(ChessFile.C, ChessDirection.UP_LEFT, ChessFile.B),
-                Arguments.arguments(ChessFile.C, ChessDirection.UP_RIGHT, ChessFile.D)
+                Arguments.arguments(ChessFile.C, ChessDirection.UP_RIGHT, ChessFile.D),
+                Arguments.arguments(ChessFile.C, ChessDirection.UP_UP_LEFT, ChessFile.B),
+                Arguments.arguments(ChessFile.C, ChessDirection.UP_UP_RIGHT, ChessFile.D),
+                Arguments.arguments(ChessFile.C, ChessDirection.DOWN_DOWN_LEFT, ChessFile.B),
+                Arguments.arguments(ChessFile.C, ChessDirection.DOWN_DOWN_RIGHT, ChessFile.D),
+                Arguments.arguments(ChessFile.C, ChessDirection.RIGHT_RIGHT_UP, ChessFile.E),
+                Arguments.arguments(ChessFile.C, ChessDirection.RIGHT_RIGHT_DOWN, ChessFile.E),
+                Arguments.arguments(ChessFile.C, ChessDirection.LEFT_LEFT_UP, ChessFile.A),
+                Arguments.arguments(ChessFile.C, ChessDirection.LEFT_LEFT_DOWN, ChessFile.A)
         );
     }
 

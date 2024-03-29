@@ -141,7 +141,7 @@ public class ChessBoardTest {
 
     @DisplayName("나이트는 Source와 Target 사이에 다른 기물이 존재해도 이동할 수 있다.")
     @Test
-    void canKnightMove() {
+    void canKnightMoveWhenBlocked() {
         // given
         HashMap<Position, Piece> board = new HashMap<>();
         board.put(Position.of("b2"), new Knight(PieceColor.WHITE));
@@ -151,5 +151,21 @@ public class ChessBoardTest {
 
         // when & then
         assertThatCode(() -> chessBoard.move("b2", "c4", Turn.first())).doesNotThrowAnyException();
+    }
+
+    @DisplayName("나이트 외에는 Source와 Target 사이에 다른 기물이 존재하면 이동할 수 없다.")
+    @Test
+    void cannotMoveWhenBlocked() {
+        // given
+        HashMap<Position, Piece> board = new HashMap<>();
+        board.put(Position.of("b2"), new Rook(PieceColor.WHITE));
+        board.put(Position.of("b3"), new Pawn(PieceColor.WHITE));
+
+        ChessBoard chessBoard = new ChessBoard(board);
+
+        // when & then
+        assertThatThrownBy(() -> chessBoard.move("b2", "b4", Turn.first()))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("기물이 이동할 수 없는 방식입니다.");
     }
 }

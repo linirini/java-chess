@@ -46,13 +46,7 @@ public enum ChessRank {
     }
 
     public ChessRank move(final ChessDirection chessDirection) {
-        if (chessDirection.isUpSide()) {
-            return findByIndex(this.index + 1);
-        }
-        if (chessDirection.isHorizontal()) {
-            return this;
-        }
-        return findByIndex(this.index - 1);
+        return findByIndex(this.index + chessDirection.y());
     }
 
     public String value() {

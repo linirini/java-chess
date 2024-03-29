@@ -1,11 +1,11 @@
 package chess.domain.piece.type;
 
-import chess.domain.PieceRelation;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
 import chess.domain.piece.PieceType;
 import chess.domain.position.ChessDirection;
-import chess.domain.position.Movement;
+import chess.domain.position.PieceRelation;
+import chess.domain.position.Position;
 
 public final class Knight extends Piece {
     public Knight(final PieceColor color) {
@@ -13,12 +13,18 @@ public final class Knight extends Piece {
     }
 
     @Override
-    public boolean isMovable(final Movement movement, final PieceRelation pieceRelation, final boolean isOpened) {
-        return isLShapeMovement(movement);
+    public boolean isMovable(final Position source, final Position target, final PieceRelation pieceRelation) {
+        return isLShapeMovement(source, target);
     }
 
-    public boolean isLShapeMovement(final Movement movement) {
-        ChessDirection chessDirection = movement.findDirection();
+    public boolean isLShapeMovement(final Position source, final Position target) {
+        ChessDirection chessDirection = findDirection(source, target);
         return chessDirection.isLShaped();
+    }
+
+    private ChessDirection findDirection(final Position source, final Position target) {
+        int fileDifference = source.calculateFileDifferenceTo(target);
+        int rankDifference = source.calculateRankDifferenceTo(target);
+        return ChessDirection.findDirection(fileDifference, rankDifference);
     }
 }
