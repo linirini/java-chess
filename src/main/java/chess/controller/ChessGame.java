@@ -3,7 +3,7 @@ package chess.controller;
 import chess.domain.Turn;
 import chess.domain.board.ChessBoard;
 import chess.domain.board.ChessBoardGenerator;
-import chess.dto.BoardStatus;
+import chess.dto.PieceInfos;
 import chess.dto.CommandInfo;
 import chess.view.InputView;
 import chess.view.OutputView;
@@ -80,8 +80,8 @@ public class ChessGame {
     }
 
     private void showBoard(final ChessBoard chessBoard) {
-        BoardStatus boardStatus = chessBoard.status();
-        outputView.printChessBoard(boardStatus);
+        PieceInfos pieceInfos = chessBoard.status();
+        outputView.printChessBoard(pieceInfos);
     }
 
     private <T> T requestUntilValid(Supplier<T> supplier) {

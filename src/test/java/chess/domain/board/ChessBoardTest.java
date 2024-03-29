@@ -7,7 +7,7 @@ import chess.domain.piece.type.Knight;
 import chess.domain.piece.type.Pawn;
 import chess.domain.piece.type.Rook;
 import chess.domain.position.Position;
-import chess.dto.BoardStatus;
+import chess.dto.PieceInfos;
 import chess.dto.PieceInfo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,8 +37,8 @@ public class ChessBoardTest {
         chessBoard.move("b2", "b3", Turn.first());
 
         // then
-        BoardStatus boardStatus = chessBoard.status();
-        List<PieceInfo> pieceInfos = boardStatus.pieceInfos();
+        PieceInfos piecesInfo = chessBoard.status();
+        List<PieceInfo> pieceInfos = piecesInfo.pieceInfos();
 
         assertAll(
                 () -> assertThat(pieceInfos.contains(new PieceInfo(1, 2, "PAWN", "WHITE"))).isTrue(),

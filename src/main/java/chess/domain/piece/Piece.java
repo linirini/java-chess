@@ -23,4 +23,12 @@ public abstract class Piece {
     }
 
     public PieceType type() {return type;}
+
+    public double score() {
+        return type.score();
+    }
+
+    public boolean isPawn() {
+        return type == PieceType.PAWN;
+    }
 }

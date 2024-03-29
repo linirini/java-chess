@@ -5,7 +5,7 @@ import chess.domain.piece.Piece;
 import chess.domain.position.ChessDirection;
 import chess.domain.position.PieceRelation;
 import chess.domain.position.Position;
-import chess.dto.BoardStatus;
+import chess.dto.PieceInfos;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,8 +25,8 @@ public class ChessBoard {
         this.board = new HashMap<>(board);
     }
 
-    public BoardStatus status() {
-        return BoardStatus.from(board);
+    public PieceInfos status() {
+        return PieceInfos.from(board);
     }
 
     public void move(final String from, final String to, final Turn turn) {
