@@ -49,15 +49,15 @@ public enum ChessRank {
         return findByIndex(this.index + chessDirection.y());
     }
 
+    public int differenceTo(final ChessRank rank) {
+        return this.index - rank.index;
+    }
+
     public String value() {
         return value;
     }
 
     public int index() {
         return index;
-    }
-
-    public int differenceTo(final ChessRank rank) {
-        return this.index - rank.index;
     }
 }

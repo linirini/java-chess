@@ -45,15 +45,15 @@ public enum ChessFile {
         return findByIndex(this.index + chessDirection.x());
     }
 
+    public int differenceTo(final ChessFile file) {
+        return this.index - file.index;
+    }
+
     public int index() {
         return index;
     }
 
     public String value() {
         return value;
-    }
-
-    public int differenceTo(final ChessFile file) {
-        return this.index - file.index;
     }
 }
