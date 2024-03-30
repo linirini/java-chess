@@ -15,13 +15,12 @@ import java.util.function.Supplier;
 
 public class GameController {
     private static final String GAME_NOT_STARTED = "아직 게임이 시작되지 않았습니다.";
-    private static final String GAME_ALREADY_STARTED = "게임 도중 start 명령어를 입력할 수 없습니다.";
 
     private final InputView inputView;
     private final OutputView outputView;
     private final Map<CommandType, Command> commands;
 
-    public GameController(final InputView inputView, OutputView outputView) {
+    public GameController(final InputView inputView, final OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.commands = CommandFactory.getInstance().create();
@@ -54,22 +53,14 @@ public class GameController {
     }
 
     private void play(final ChessGame game) {
-        CommandInfo commandInfo = requestUntilValid(this::requestMove);
+        CommandInfo commandInfo = requestUntilValid(this::readCommandInfo);
         while (!commandInfo.type().isEnd()) {
             executeCommand(game, commandInfo);
             if (game.isTerminated()) {
                 break;
             }
-            commandInfo = requestUntilValid(this::requestMove);
+            commandInfo = requestUntilValid(this::readCommandInfo);
         }
-    }
-
-    private CommandInfo requestMove() {
-        CommandInfo commandInfo = readCommandInfo();
-        if (commandInfo.type().isStart()) {
-            throw new IllegalArgumentException(GAME_ALREADY_STARTED);
-        }
-        return commandInfo;
     }
 
     private CommandInfo readCommandInfo() {
