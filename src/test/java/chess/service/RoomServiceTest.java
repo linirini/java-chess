@@ -1,11 +1,14 @@
 package chess.service;
 
 import chess.domain.room.Room;
+import chess.dto.RoomInfos;
 import chess.repository.FakeRoomDao;
 import chess.repository.RoomRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -76,5 +79,22 @@ class RoomServiceTest {
         assertThatThrownBy(() -> roomService.create(name))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("'" + name + "'은 이미 존재하는 방 이름입니다.");
+    }
+
+    @DisplayName("현재 존재하는 모든 방의 이름을 찾는다.")
+    @Test
+    void findAll() {
+        //given
+        List<String> names = List.of("리니방", "포비방", "찰리방");
+        for (final String name : names) {
+            Room room = new Room(name);
+            roomRepository.save(room);
+        }
+
+        //when
+        RoomInfos result = roomService.findAll();
+
+        //then
+        assertThat(result.names()).containsAll(names);
     }
 }

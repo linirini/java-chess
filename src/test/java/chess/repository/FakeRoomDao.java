@@ -3,6 +3,7 @@ package chess.repository;
 import chess.domain.Name;
 import chess.domain.room.Room;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,5 +30,10 @@ public class FakeRoomDao implements RoomRepository {
     @Override
     public boolean isExistName(final String name) {
         return rooms.values().stream().anyMatch(room -> room.getName().equals(name));
+    }
+
+    @Override
+    public List<Room> findAll() {
+        return rooms.values().stream().toList();
     }
 }

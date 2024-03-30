@@ -1,7 +1,10 @@
 package chess.service;
 
 import chess.domain.room.Room;
+import chess.dto.RoomInfos;
 import chess.repository.RoomRepository;
+
+import java.util.List;
 
 public class RoomService {
     private final RoomRepository roomRepository;
@@ -21,5 +24,10 @@ public class RoomService {
         }
         Room room = new Room(name);
         return roomRepository.save(room);
+    }
+
+    public RoomInfos findAll() {
+        List<Room> rooms = roomRepository.findAll();
+        return RoomInfos.of(rooms);
     }
 }
