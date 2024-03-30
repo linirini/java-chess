@@ -26,15 +26,17 @@ class RoomServiceTest {
     void findIdByName() {
         //given
         String name = "리니방";
-        long id = 1L;
-        Room room = new Room(id, new Name(name));
-        roomRepository.save(room);
+        Room room = new Room(name);
+        long id = roomRepository.save(room);
 
         //when
-        long result = roomService.findIdByName(name);
+        Room result = roomService.findByName(name);
 
         //then
-        assertThat(result).isEqualTo(id);
+        assertAll(
+                () -> assertThat(result.getId()).isEqualTo(id),
+                () -> assertThat(result.getName()).isEqualTo(name)
+        );
     }
 
     @DisplayName("존재하지 않는 이름으로 게임방을 조회를 시도하면 예외를 발생시킨다.")
@@ -44,7 +46,7 @@ class RoomServiceTest {
         String name = "리니방";
 
         //when & then
-        assertThatThrownBy(() -> roomService.findIdByName(name))
+        assertThatThrownBy(() -> roomService.findByName(name))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("'" + name + "'이라는 이름의 방을 찾을 수 없습니다.");
     }

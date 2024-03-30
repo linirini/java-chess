@@ -9,8 +9,8 @@ public class RoomDao implements RoomRepository {
     }
 
     @Override
-    public long findIdByName(final String name) {
-        return 0;
+    public Optional<Room> findByName(final String name) {
+        return null;
     }
 
     @Override

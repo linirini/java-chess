@@ -3,7 +3,7 @@ package chess.domain.room;
 import chess.domain.Name;
 
 public class Room {
-    private final long id;
+    private final Long id;
     private final Name name;
 
     public Room(final String name){

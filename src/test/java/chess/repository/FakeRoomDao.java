@@ -1,33 +1,33 @@
 package chess.repository;
 
+import chess.domain.Name;
 import chess.domain.room.Room;
 
 import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class FakeRoomDao implements RoomRepository {
 
-    private final Map<String, Room> rooms = new ConcurrentHashMap<>();
+    private final Map<Long, Room> rooms = new ConcurrentHashMap<>();
 
     @Override
     public long save(final Room room) {
-        rooms.put(room.getName(), room);
-        return room.getId();
+        long id = rooms.size() + 1L;
+        Name name = new Name(room.getName());
+        rooms.put(id, new Room(id, name));
+        return id;
     }
 
     @Override
-    public long findIdByName(final String name) {
-        final Room room = rooms.get(name);
-        if (room == null) {
-            throw new NoSuchElementException();
-        }
-
-        return room.getId();
+    public Optional<Room> findByName(final String name) {
+        return rooms.values().stream()
+                .filter(value -> value.getName().equals(name))
+                .findAny();
     }
 
     @Override
     public boolean isExistName(final String name) {
-        return rooms.containsKey(name);
+        return rooms.values().stream().anyMatch(room -> room.getName().equals(name));
     }
 }

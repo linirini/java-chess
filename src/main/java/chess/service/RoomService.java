@@ -9,10 +9,8 @@ public class RoomService {
         this.roomRepository = roomRepository;
     }
 
-    public long findIdByName(final String name) {
-        if (!roomRepository.isExistName(name)) {
-            throw new IllegalArgumentException(String.format("'%s'이라는 이름의 방을 찾을 수 없습니다.", name));
-        }
-        return roomRepository.findIdByName(name);
+    public Room findByName(final String name) {
+        return roomRepository.findByName(name)
+                .orElseThrow(() -> new IllegalArgumentException(String.format("'%s'이라는 이름의 방을 찾을 수 없습니다.", name)));
     }
 }
