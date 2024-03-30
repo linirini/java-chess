@@ -3,6 +3,7 @@ package chess.domain.game;
 import chess.domain.board.SettedBoardGenerator;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
+import chess.domain.piece.type.King;
 import chess.domain.piece.type.Pawn;
 import chess.domain.piece.type.Rook;
 import chess.domain.position.Position;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 class ChessGameTest {
@@ -76,5 +78,42 @@ class ChessGameTest {
         assertThatThrownBy(() -> chessGame.move(source, target))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("source와 target이 같을 수 없습니다.");
+    }
+
+    @DisplayName("게임이 종료되지 않았으면 거짓을 반환한다.")
+    @Test
+    void isGameNotOver() {
+        // given
+        HashMap<Position, Piece> board = new HashMap<>();
+        board.put(Position.of("b3"), new King(PieceColor.WHITE));
+        board.put(Position.of("b4"), new King(PieceColor.BLACK));
+
+        SettedBoardGenerator settedBoardGenerator = new SettedBoardGenerator(board);
+
+        ChessGame chessGame = new ChessGame(settedBoardGenerator);
+
+        // when
+        boolean result = chessGame.isTerminated();
+
+        // then
+        assertThat(result).isFalse();
+    }
+
+    @DisplayName("게임이 종료되었으면 참을 반환한다.")
+    @Test
+    void isGameOver() {
+        // given
+        HashMap<Position, Piece> board = new HashMap<>();
+        board.put(Position.of("b3"), new King(PieceColor.WHITE));
+
+        SettedBoardGenerator settedBoardGenerator = new SettedBoardGenerator(board);
+
+        ChessGame chessGame = new ChessGame(settedBoardGenerator);
+
+        // when
+        boolean result = chessGame.isTerminated();
+
+        // then
+        assertThat(result).isTrue();
     }
 }

@@ -66,4 +66,9 @@ public class ChessGame {
         WinningResult winningResult = gameResult.determineWinningResult();
         return GameStatus.of(whiteScore, blackScore, winningResult);
     }
+
+    public boolean isTerminated() {
+        GameResult gameResult = new GameResult(board.status());
+        return gameResult.isKingAttacked();
+    }
 }
