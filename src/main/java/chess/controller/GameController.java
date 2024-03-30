@@ -48,8 +48,13 @@ public class GameController {
 
     private void play(final ChessGame game) {
         CommandInfo commandInfo = requestUntilValid(this::requestMove);
-        while (commandInfo.type().isMove()) {
-            playTurn(game, commandInfo);
+        while (!commandInfo.type().isEnd()) {
+            if (commandInfo.type().isMove()) {
+                playTurn(game, commandInfo);
+            }
+            if (commandInfo.type().isStatus()) {
+                outputView.printGameStatus(game.getWinningInfo());
+            }
             commandInfo = requestUntilValid(this::requestMove);
         }
     }

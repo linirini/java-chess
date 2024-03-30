@@ -6,6 +6,7 @@ import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
 import chess.domain.position.Position;
 import chess.dto.BoardStatus;
+import chess.dto.GameStatus;
 
 import java.util.Map;
 
@@ -28,7 +29,7 @@ public class ChessGame {
 
         validateSource(source);
         validateTurn(source);
-        validateIdentity(source,target);
+        validateIdentity(source, target);
 
         board.move(source, target);
         turn.next();
@@ -53,8 +54,16 @@ public class ChessGame {
         }
     }
 
-    public BoardStatus getBoardStatus(){
+    public BoardStatus getBoardStatus() {
         Map<Position, Piece> pieceInfos = board.status();
         return BoardStatus.from(pieceInfos);
+    }
+
+    public GameStatus getWinningInfo() {
+        GameResult gameResult = new GameResult(board.status());
+        Score whiteScore = gameResult.calculateScore(PieceColor.WHITE);
+        Score blackScore = gameResult.calculateScore(PieceColor.BLACK);
+        WinningResult winningResult = gameResult.determineWinningResult();
+        return GameStatus.of(whiteScore, blackScore, winningResult);
     }
 }

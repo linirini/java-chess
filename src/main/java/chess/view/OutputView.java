@@ -1,9 +1,10 @@
 package chess.view;
 
+import chess.dto.GameStatus;
 import chess.domain.position.ChessFile;
 import chess.domain.position.ChessRank;
-import chess.dto.PieceInfo;
 import chess.dto.BoardStatus;
+import chess.dto.PieceInfo;
 
 import java.util.Arrays;
 import java.util.StringJoiner;
@@ -27,8 +28,13 @@ public class OutputView {
         startMessageJoiner.add("> 체스 게임을 시작합니다.");
         startMessageJoiner.add("> 게임 시작 : start");
         startMessageJoiner.add("> 게임 종료 : end");
+        startMessageJoiner.add("> 게임 점수 및 승패 확인 : status");
         startMessageJoiner.add("> 게임 이동 : move source위치 target위치 - 예. move b2 b3");
         System.out.println(String.format(startMessageJoiner.toString()));
+    }
+
+    public void printGameStatus(final GameStatus status) {
+        System.out.println(String.format("WHITE 진영 : %f, BLACK 진영 : %f, 승자 : %s", status.whiteScore(), status.blackScore(), status.winningResult()));
     }
 
     public void printChessBoard(final BoardStatus status) {

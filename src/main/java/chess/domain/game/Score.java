@@ -34,4 +34,8 @@ public class Score {
         final Score score1 = (Score) o;
         return Double.compare(score1.score, score) == 0;
     }
+
+    public double score() {
+        return score;
+    }
 }

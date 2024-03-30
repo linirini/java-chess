@@ -7,6 +7,7 @@ public enum CommandType {
 
     START("start", 0),
     MOVE("move", 2),
+    STATUS("status", 0),
     END("end", 0);
 
     private static final String INVALID_COMMAND = "존재하지 않는 명령어 입니다.";
@@ -47,5 +48,9 @@ public enum CommandType {
 
     public boolean isEnd() {
         return this == END;
+    }
+
+    public boolean isStatus() {
+        return this == STATUS;
     }
 }
