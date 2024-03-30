@@ -1,8 +1,5 @@
-package chess.domain;
+package chess.domain.game;
 
-import chess.domain.game.GameResult;
-import chess.domain.game.Score;
-import chess.domain.game.WinningResult;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
 import chess.domain.piece.type.*;

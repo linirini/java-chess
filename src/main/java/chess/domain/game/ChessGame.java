@@ -1,7 +1,7 @@
 package chess.domain.game;
 
+import chess.domain.board.BoardGenerator;
 import chess.domain.board.ChessBoard;
-import chess.domain.board.ChessBoardGenerator;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
 import chess.domain.position.Position;
@@ -17,7 +17,7 @@ public class ChessGame {
     private final ChessBoard board;
     private final Turn turn;
 
-    public ChessGame(final ChessBoardGenerator boardGenerator) {
+    public ChessGame(final BoardGenerator boardGenerator) {
         this.board = new ChessBoard(boardGenerator.generate());
         this.turn = Turn.first();
     }
@@ -25,9 +25,11 @@ public class ChessGame {
     public void move(final String from, final String to) {
         Position source = Position.of(from);
         Position target = Position.of(to);
+
         validateSource(source);
         validateTurn(source);
         validateIdentity(source,target);
+
         board.move(source, target);
         turn.next();
     }

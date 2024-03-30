@@ -10,7 +10,7 @@ import chess.domain.position.Position;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ChessBoardGenerator {
+public class ChessBoardGenerator implements BoardGenerator{
     private final static ChessBoardGenerator INSTANCE = new ChessBoardGenerator();
 
     private ChessBoardGenerator() {
@@ -20,6 +20,7 @@ public class ChessBoardGenerator {
         return INSTANCE;
     }
 
+    @Override
     public Map<Position, Piece> generate() {
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.putAll(createFirstLine(ChessRank.EIGHT, PieceColor.BLACK));
