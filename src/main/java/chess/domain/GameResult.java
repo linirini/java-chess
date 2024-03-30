@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 public class GameResult {
+    private static final long KING_COUNT = 2;
+    private static final String NO_KING = "King이 존재하지 않습니다.";
+
     private final Map<Position, Piece> boardStatus;
 
     public GameResult(final Map<Position, Piece> boardStatus) {
@@ -65,5 +68,36 @@ public class GameResult {
                 .count();
     }
 
+    public WinningResult determineWinningResult() {
+        if (isKingAttacked()) {
+            return WinningResult.findWinnerByColor(findKing().color());
+        }
+        return determineWinnerByScore();
+    }
 
+    private Piece findKing() {
+        return boardStatus.values().stream()
+                .filter(Piece::isKing)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(NO_KING));
+    }
+
+    private WinningResult determineWinnerByScore() {
+        Score whiteScore = calculateScore(PieceColor.WHITE);
+        Score blackScore = calculateScore(PieceColor.BLACK);
+        if (whiteScore.isBiggerThan(blackScore)) {
+            return WinningResult.findWinnerByColor(PieceColor.WHITE);
+        }
+        if (blackScore.isBiggerThan(whiteScore)) {
+            return WinningResult.findWinnerByColor(PieceColor.BLACK);
+        }
+        return WinningResult.TIE;
+    }
+
+    public boolean isKingAttacked() {
+        long count = boardStatus.values().stream()
+                .filter(Piece::isKing)
+                .count();
+        return count != KING_COUNT;
+    }
 }

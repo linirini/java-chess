@@ -18,6 +18,10 @@ public class Score {
         }
     }
 
+    public boolean isBiggerThan(Score score) {
+        return this.score > score.score;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(score);
