@@ -30,16 +30,16 @@ public class RoomController {
     }
 
     private long findRoom(final CommandInfo commandInfo) {
-        if(commandInfo.type().isEnter()) {
+        if (commandInfo.type().isEnter()) {
             outputView.printRooms(roomService.findAll());
-            return roomService.create(commandInfo.arguments().get(0));
+            return roomService.findIdByName(commandInfo.arguments().get(0));
         }
         return roomService.create(commandInfo.arguments().get(0));
     }
 
     private CommandInfo requestRoom() {
         CommandInfo commandInfo = readCommandInfo();
-        if (!commandInfo.type().isCreate()&&!commandInfo.type().isEnter()) {
+        if (!commandInfo.type().isCreate() && !commandInfo.type().isEnter()) {
             throw new IllegalArgumentException(NOT_IN_ROOM_YET);
         }
         return commandInfo;

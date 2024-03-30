@@ -12,7 +12,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 class RoomServiceTest {
     RoomRepository roomRepository;
@@ -33,13 +32,10 @@ class RoomServiceTest {
         long id = roomRepository.save(room);
 
         //when
-        Room result = roomService.findByName(name);
+        long result = roomService.findIdByName(name);
 
         //then
-        assertAll(
-                () -> assertThat(result.getId()).isEqualTo(id),
-                () -> assertThat(result.getName()).isEqualTo(name)
-        );
+        assertThat(result).isEqualTo(id);
     }
 
     @DisplayName("존재하지 않는 이름으로 게임방을 조회를 시도하면 예외를 발생시킨다.")
@@ -49,7 +45,7 @@ class RoomServiceTest {
         String name = "리니방";
 
         //when & then
-        assertThatThrownBy(() -> roomService.findByName(name))
+        assertThatThrownBy(() -> roomService.findIdByName(name))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("'" + name + "'이라는 이름의 방을 찾을 수 없습니다.");
     }
