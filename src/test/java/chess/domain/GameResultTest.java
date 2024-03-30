@@ -1,6 +1,5 @@
-package chess.domain.board;
+package chess.domain;
 
-import chess.domain.Score;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
 import chess.domain.piece.type.*;
@@ -14,7 +13,7 @@ import java.util.Map;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-class BoardStatusTest {
+class GameResultTest {
     /**
      * .KR.....  8
      * P.PB....  7
@@ -48,13 +47,13 @@ class BoardStatusTest {
         board.put(Position.of("e1"), new Rook(PieceColor.WHITE));
         board.put(Position.of("f1"), new King(PieceColor.WHITE));
 
-        BoardStatus boardStatus = new BoardStatus(board);
+        GameResult gameResult = new GameResult(board);
         Score expectedWhiteScore = new Score(19.5);
         Score expectedBlackScore = new Score(20);
 
         //when
-        Score whiteScore = boardStatus.calculateScore(PieceColor.WHITE);
-        Score blackScore = boardStatus.calculateScore(PieceColor.BLACK);
+        Score whiteScore = gameResult.calculateScore(PieceColor.WHITE);
+        Score blackScore = gameResult.calculateScore(PieceColor.BLACK);
 
         //then
         assertAll(

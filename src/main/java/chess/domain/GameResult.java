@@ -1,6 +1,5 @@
-package chess.domain.board;
+package chess.domain;
 
-import chess.domain.Score;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
 import chess.domain.piece.PieceType;
@@ -11,10 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class BoardStatus {
+public class GameResult {
     private final Map<Position, Piece> boardStatus;
 
-    public BoardStatus(final Map<Position, Piece> boardStatus) {
+    public GameResult(final Map<Position, Piece> boardStatus) {
         this.boardStatus = boardStatus;
     }
 
@@ -31,7 +30,6 @@ public class BoardStatus {
         for (final Piece piece : pieces) {
             totalScore += piece.score();
         }
-        System.out.println("scoreExceptPawn" + totalScore);
         return totalScore;
     }
 
@@ -49,7 +47,6 @@ public class BoardStatus {
         for (final Integer count : onePawnOnFile) {
             totalScore += count * PieceType.PAWN.score();
         }
-        System.out.println("defaultPawnScore" + totalScore);
         return totalScore;
     }
 
@@ -59,7 +56,6 @@ public class BoardStatus {
         for (final Integer count : multiplePawnOnFile) {
             totalScore += count * PieceType.PAWN.halfScore();
         }
-        System.out.println("halfPawnScore" + totalScore);
         return totalScore;
     }
 
@@ -68,4 +64,6 @@ public class BoardStatus {
                 .filter(entry -> entry.getKey().isFile(file) && entry.getValue().isColor(color) && entry.getValue().isPawn())
                 .count();
     }
+
+
 }
