@@ -26,6 +26,9 @@ public class CommandTypeTest {
         if (expected.isMove()) {
             command = List.of("move", "argument1", "argument2");
         }
+        if (expected.isStatus()) {
+            command = List.of("status");
+        }
         if (expected.isEnd()) {
             command = List.of("end");
         }
@@ -43,6 +46,7 @@ public class CommandTypeTest {
         assertAll(
                 () -> assertThat(CommandType.doesNotExist("start")).isFalse(),
                 () -> assertThat(CommandType.doesNotExist("move")).isFalse(),
+                () -> assertThat(CommandType.doesNotExist("status")).isFalse(),
                 () -> assertThat(CommandType.doesNotExist("end")).isFalse()
         );
     }
@@ -65,6 +69,9 @@ public class CommandTypeTest {
         if (commandType.isMove()) {
             command = List.of("move", "argument1", "argument2");
         }
+        if (commandType.isStatus()) {
+            command = List.of("status");
+        }
         if (commandType.isEnd()) {
             command = List.of("end");
         }
@@ -80,12 +87,14 @@ public class CommandTypeTest {
         List<String> invalidMoveArguments = Arrays.asList("move", "argument1");
         List<String> invalidStartArguments = Arrays.asList("start", "argument1");
         List<String> invalidEndArguments = Arrays.asList("end", "argument1");
+        List<String> invalidStatusArguments = Arrays.asList("status", "argument1");
 
         //when & then
         assertAll(
                 () -> assertThat(CommandType.isInValidArgumentCount(invalidMoveArguments)).isTrue(),
                 () -> assertThat(CommandType.isInValidArgumentCount(invalidStartArguments)).isTrue(),
-                () -> assertThat(CommandType.isInValidArgumentCount(invalidEndArguments)).isTrue()
+                () -> assertThat(CommandType.isInValidArgumentCount(invalidEndArguments)).isTrue(),
+                () -> assertThat(CommandType.isInValidArgumentCount(invalidStatusArguments)).isTrue()
         );
     }
 }

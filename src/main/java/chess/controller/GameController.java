@@ -28,7 +28,10 @@ public class GameController {
         start();
         ChessGame game = new ChessGame(ChessBoardGenerator.getInstance());
         outputView.printChessBoard(game.getBoardStatus());
+
         play(game);
+
+        terminate(game);
     }
 
     private void start() {
@@ -55,6 +58,9 @@ public class GameController {
             if (commandInfo.type().isStatus()) {
                 outputView.printGameStatus(game.getWinningInfo());
             }
+            if (game.isTerminated()) {
+                break;
+            }
             commandInfo = requestUntilValid(this::requestMove);
         }
     }
@@ -79,6 +85,11 @@ public class GameController {
             outputView.printGameErrorMessage(e.getMessage());
             play(game);
         }
+    }
+
+    private void terminate(final ChessGame game) {
+        outputView.printEndMessage();
+        outputView.printGameStatus(game.getWinningInfo());
     }
 
     private <T> T requestUntilValid(Supplier<T> supplier) {
