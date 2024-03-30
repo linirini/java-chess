@@ -161,4 +161,31 @@ class GameResultTest {
         //then
         assertThat(winningResult).isEqualTo(WinningResult.TIE);
     }
+
+    /**
+     * .KR.....  8
+     * P.PB....  7
+     * .P..Q...  6
+     * .....p..  5
+     * .....nq.  4
+     * .....p.p  3
+     * .....pp.  2
+     * p...rk..  1
+     * <p>
+     * abcdefgh
+     */
+    @DisplayName("킹이 모두 존재하고, 흰색의 점수가 검정의 점수보다 높아 흰색 진영이 승리한다.")
+    @Test
+    void whiteWinBecauseScoreIsBigger() {
+        //given
+        board.put(Position.of("f5"), new Pawn(PieceColor.WHITE));
+        board.put(Position.of("a1"), new Pawn(PieceColor.WHITE));
+        GameResult gameResult = new GameResult(board);
+
+        //when
+        WinningResult winningResult = gameResult.determineWinningResult();
+
+        //then
+        assertThat(winningResult).isEqualTo(WinningResult.WHITE_WIN);
+    }
 }
