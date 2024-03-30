@@ -5,6 +5,7 @@ import chess.domain.position.ChessRank;
 import chess.dto.BoardStatus;
 import chess.dto.GameStatus;
 import chess.dto.PieceInfo;
+import chess.dto.RoomInfos;
 
 import java.util.Arrays;
 import java.util.StringJoiner;
@@ -81,5 +82,22 @@ public class OutputView {
         endMessageJoiner.add("게임이 종료되었습니다.");
         endMessageJoiner.add("<게임 결과>");
         System.out.println(endMessageJoiner);
+    }
+
+    public void printGameMessage() {
+        StringJoiner gameMessageJoiner = new StringJoiner(System.lineSeparator());
+        gameMessageJoiner.add("<< 체스 게임 >>");
+        gameMessageJoiner.add("> 게임 종료 : create 이름 - 예. create 리니게임방");
+        gameMessageJoiner.add("> 게임 입장 : enter 이름 - 예. enter 리니게임방");
+        System.out.println(gameMessageJoiner);
+    }
+
+    public void printRooms(final RoomInfos roomInfos) {
+        StringJoiner roomJoiner = new StringJoiner(System.lineSeparator());
+        roomJoiner.add("<< 입장 가능한 방 >>");
+        for (final String name : roomInfos.names()) {
+            roomJoiner.add(name);
+        }
+        System.out.println(roomJoiner + System.lineSeparator());
     }
 }
