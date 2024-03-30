@@ -50,7 +50,6 @@ public class GameController {
         CommandInfo commandInfo = requestUntilValid(this::requestMove);
         while (commandInfo.type().isMove()) {
             playTurn(game, commandInfo);
-            outputView.printChessBoard(game.getBoardStatus());
             commandInfo = requestUntilValid(this::requestMove);
         }
     }
@@ -70,6 +69,7 @@ public class GameController {
     private void playTurn(final ChessGame game, final CommandInfo commandInfo) {
         try {
             game.move(commandInfo.arguments().get(SOURCE_INDEX), commandInfo.arguments().get(TARGET_INDEX));
+            outputView.printChessBoard(game.getBoardStatus());
         } catch (IllegalArgumentException e) {
             outputView.printGameErrorMessage(e.getMessage());
             play(game);
