@@ -1,7 +1,5 @@
 package chess.dto;
 
-import chess.view.CommandType;
-
 import java.util.List;
 
 public record CommandInfo(CommandType type, List<String> arguments) {

@@ -1,26 +1,30 @@
 package chess.controller;
 
+import chess.controller.command.Command;
+import chess.controller.command.CommandFactory;
 import chess.domain.board.ChessBoardGenerator;
 import chess.domain.game.ChessGame;
 import chess.dto.CommandInfo;
+import chess.dto.CommandType;
 import chess.view.InputView;
 import chess.view.OutputView;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
 public class GameController {
     private static final String GAME_NOT_STARTED = "아직 게임이 시작되지 않았습니다.";
     private static final String GAME_ALREADY_STARTED = "게임 도중 start 명령어를 입력할 수 없습니다.";
-    private static final int SOURCE_INDEX = 0;
-    private static final int TARGET_INDEX = 1;
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final Map<CommandType, Command> commands;
 
     public GameController(final InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.commands = CommandFactory.getInstance().create();
     }
 
     public void run() {
@@ -52,13 +56,8 @@ public class GameController {
     private void play(final ChessGame game) {
         CommandInfo commandInfo = requestUntilValid(this::requestMove);
         while (!commandInfo.type().isEnd()) {
-            if (commandInfo.type().isMove()) {
-                playTurn(game, commandInfo);
-            }
-            if (commandInfo.type().isStatus()) {
-                outputView.printGameStatus(game.getWinningInfo());
-            }
-            if (game.isTerminated()) {
+            executeCommand(game,commandInfo);
+            if(game.isTerminated()){
                 break;
             }
             commandInfo = requestUntilValid(this::requestMove);
@@ -77,10 +76,9 @@ public class GameController {
         return CommandInfo.from(requestUntilValid(inputView::readCommand));
     }
 
-    private void playTurn(final ChessGame game, final CommandInfo commandInfo) {
+    private void executeCommand(final ChessGame game, final CommandInfo commandInfo) {
         try {
-            game.move(commandInfo.arguments().get(SOURCE_INDEX), commandInfo.arguments().get(TARGET_INDEX));
-            outputView.printChessBoard(game.getBoardStatus());
+            commands.get(commandInfo.type()).execute(game,commandInfo,outputView);
         } catch (IllegalArgumentException e) {
             outputView.printGameErrorMessage(e.getMessage());
             play(game);
