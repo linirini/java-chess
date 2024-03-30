@@ -4,7 +4,7 @@ import chess.domain.game.ChessGame;
 import chess.dto.CommandInfo;
 import chess.view.OutputView;
 
-public class StartCommand implements Command{
+public class StartCommand implements Command {
     private static final String GAME_ALREADY_STARTED = "게임 도중 start 명령어를 입력할 수 없습니다.";
 
     @Override

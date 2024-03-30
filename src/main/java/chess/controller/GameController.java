@@ -56,8 +56,8 @@ public class GameController {
     private void play(final ChessGame game) {
         CommandInfo commandInfo = requestUntilValid(this::requestMove);
         while (!commandInfo.type().isEnd()) {
-            executeCommand(game,commandInfo);
-            if(game.isTerminated()){
+            executeCommand(game, commandInfo);
+            if (game.isTerminated()) {
                 break;
             }
             commandInfo = requestUntilValid(this::requestMove);
@@ -78,7 +78,7 @@ public class GameController {
 
     private void executeCommand(final ChessGame game, final CommandInfo commandInfo) {
         try {
-            commands.get(commandInfo.type()).execute(game,commandInfo,outputView);
+            commands.get(commandInfo.type()).execute(game, commandInfo, outputView);
         } catch (IllegalArgumentException e) {
             outputView.printGameErrorMessage(e.getMessage());
             play(game);

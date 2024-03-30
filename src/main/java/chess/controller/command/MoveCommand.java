@@ -4,7 +4,7 @@ import chess.domain.game.ChessGame;
 import chess.dto.CommandInfo;
 import chess.view.OutputView;
 
-public class MoveCommand implements Command{
+public class MoveCommand implements Command {
     private static final int SOURCE_INDEX = 0;
     private static final int TARGET_INDEX = 1;
 

@@ -9,13 +9,14 @@ public class CommandFactory {
 
     private final static CommandFactory INSTANCE = new CommandFactory();
 
-    private CommandFactory(){}
+    private CommandFactory() {
+    }
 
-    public static CommandFactory getInstance(){
+    public static CommandFactory getInstance() {
         return INSTANCE;
     }
 
-    public Map<CommandType, Command> create(){
+    public Map<CommandType, Command> create() {
         Map<CommandType, Command> commands = new HashMap<>();
         commands.put(CommandType.START, new StartCommand());
         commands.put(CommandType.MOVE, new MoveCommand());
