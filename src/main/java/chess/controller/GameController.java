@@ -1,17 +1,15 @@
 package chess.controller;
 
-import chess.domain.Turn;
-import chess.domain.board.ChessBoard;
 import chess.domain.board.ChessBoardGenerator;
+import chess.domain.game.ChessGame;
 import chess.dto.CommandInfo;
-import chess.dto.PieceInfos;
 import chess.view.InputView;
 import chess.view.OutputView;
 
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class ChessGame {
+public class GameController {
     private static final String GAME_NOT_STARTED = "아직 게임이 시작되지 않았습니다.";
     private static final String GAME_ALREADY_STARTED = "게임 도중 start 명령어를 입력할 수 없습니다.";
     private static final int SOURCE_INDEX = 0;
@@ -20,7 +18,7 @@ public class ChessGame {
     private final InputView inputView;
     private final OutputView outputView;
 
-    public ChessGame(final InputView inputView, OutputView outputView) {
+    public GameController(final InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
     }
@@ -28,10 +26,9 @@ public class ChessGame {
     public void run() {
         outputView.printGameStartMessage();
         start();
-        Turn turn = Turn.first();
-        ChessBoard chessBoard = new ChessBoard(ChessBoardGenerator.getInstance().generate());
-        showBoard(chessBoard);
-        play(turn, chessBoard);
+        ChessGame game = new ChessGame(ChessBoardGenerator.getInstance());
+        outputView.printChessBoard(game.getBoardStatus());
+        play(game);
     }
 
     private void start() {
@@ -49,10 +46,11 @@ public class ChessGame {
         return commandInfo;
     }
 
-    private void play(final Turn turn, final ChessBoard chessBoard) {
+    private void play(final ChessGame game) {
         CommandInfo commandInfo = requestUntilValid(this::requestMove);
         while (commandInfo.type().isMove()) {
-            playTurn(turn, chessBoard, commandInfo);
+            playTurn(game, commandInfo);
+            outputView.printChessBoard(game.getBoardStatus());
             commandInfo = requestUntilValid(this::requestMove);
         }
     }
@@ -69,19 +67,13 @@ public class ChessGame {
         return CommandInfo.from(requestUntilValid(inputView::readCommand));
     }
 
-    private void playTurn(final Turn turn, final ChessBoard chessBoard, final CommandInfo commandInfo) {
+    private void playTurn(final ChessGame game, final CommandInfo commandInfo) {
         try {
-            chessBoard.move(commandInfo.arguments().get(SOURCE_INDEX), commandInfo.arguments().get(TARGET_INDEX), turn);
-            showBoard(chessBoard);
+            game.move(commandInfo.arguments().get(SOURCE_INDEX), commandInfo.arguments().get(TARGET_INDEX));
         } catch (IllegalArgumentException e) {
             outputView.printGameErrorMessage(e.getMessage());
-            play(turn, chessBoard);
+            play(game);
         }
-    }
-
-    private void showBoard(final ChessBoard chessBoard) {
-        PieceInfos pieceInfos = chessBoard.status();
-        outputView.printChessBoard(pieceInfos);
     }
 
     private <T> T requestUntilValid(Supplier<T> supplier) {

@@ -1,12 +1,12 @@
 package chess;
 
-import chess.controller.ChessGame;
+import chess.controller.GameController;
 import chess.view.InputView;
 import chess.view.OutputView;
 
 public class ChessApplication {
     public static void main(String[] args) {
-        final ChessGame chessGame = new ChessGame(InputView.getInstance(), OutputView.getInstance());
-        chessGame.run();
+        final GameController gameController = new GameController(InputView.getInstance(), OutputView.getInstance());
+        gameController.run();
     }
 }

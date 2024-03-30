@@ -1,19 +1,16 @@
 package chess.domain.board;
 
-import chess.domain.Turn;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
 import chess.domain.piece.type.Knight;
 import chess.domain.piece.type.Pawn;
 import chess.domain.piece.type.Rook;
 import chess.domain.position.Position;
-import chess.dto.PieceInfo;
-import chess.dto.PieceInfos;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -32,65 +29,20 @@ public class ChessBoardTest {
     void move() {
         // given
         ChessBoard chessBoard = new ChessBoard(ChessBoardGenerator.getInstance().generate());
+        Position source = Position.of("b2");
+        Piece piece = chessBoard.status().get(source);
+        Position target = Position.of("b3");
 
         // when
-        chessBoard.move("b2", "b3", Turn.first());
+        chessBoard.move(source, target);
 
         // then
-        PieceInfos piecesInfo = chessBoard.status();
-        List<PieceInfo> pieceInfos = piecesInfo.pieceInfos();
+        Map<Position, Piece> piecesInfo = chessBoard.status();
 
         assertAll(
-                () -> assertThat(pieceInfos.contains(new PieceInfo(1, 2, "PAWN", "WHITE"))).isTrue(),
-                () -> assertThat(pieceInfos.contains(new PieceInfo(1, 1, "PAWN", "WHITE"))).isFalse()
+                () -> assertThat(piecesInfo.get(source)).isNull(),
+                () -> assertThat(piecesInfo.get(target)).isEqualTo(piece)
         );
-    }
-
-    @DisplayName("Source에 기물이 존재하지 않으면 이동할 수 없다.")
-    @Test
-    void notExistSource() {
-        // given
-        ChessBoard chessBoard = new ChessBoard(ChessBoardGenerator.getInstance().generate());
-
-        // when & then
-        assertThatThrownBy(() -> chessBoard.move("b3", "b2", Turn.first()))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("source에 이동할 수 있는 기물이 존재하지 않습니다.");
-    }
-
-    @DisplayName("같은 색상의 기물을 연속해서 움직일 수 없다.")
-    @Test
-    void isNotTurn() {
-        // given
-        HashMap<Position, Piece> board = new HashMap<>();
-        board.put(Position.of("b2"), new Pawn(PieceColor.WHITE));
-        board.put(Position.of("a1"), new Rook(PieceColor.WHITE));
-
-        ChessBoard chessBoard = new ChessBoard(board);
-        Turn turn = Turn.first();
-
-        // when
-        chessBoard.move("b2", "b3", turn);
-
-        // then
-        assertThatThrownBy(() -> chessBoard.move("a1", "h1", turn))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(PieceColor.WHITE.name() + "의 차례가 아닙니다.");
-    }
-
-    @DisplayName("Source와 Target이 같으면 이동할 수 없다.")
-    @Test
-    void isSamePosition() {
-        // given
-        HashMap<Position, Piece> board = new HashMap<>();
-        board.put(Position.of("b2"), new Pawn(PieceColor.WHITE));
-
-        ChessBoard chessBoard = new ChessBoard(board);
-
-        // when & then
-        assertThatThrownBy(() -> chessBoard.move("b2", "b2", Turn.first()))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("source와 target이 같을 수 없습니다.");
     }
 
     @DisplayName("Source와 Target이 같은 색이면 이동할 수 없다.")
@@ -98,13 +50,16 @@ public class ChessBoardTest {
     void isTargetSameColor() {
         // given
         HashMap<Position, Piece> board = new HashMap<>();
-        board.put(Position.of("b2"), new Pawn(PieceColor.WHITE));
-        board.put(Position.of("b3"), new Pawn(PieceColor.WHITE));
+        Position source = Position.of("b2");
+        Position target = Position.of("c3");
+
+        board.put(source, new Pawn(PieceColor.WHITE));
+        board.put(target, new Pawn(PieceColor.WHITE));
 
         ChessBoard chessBoard = new ChessBoard(board);
 
         // when & then
-        assertThatThrownBy(() -> chessBoard.move("b2", "b3", Turn.first()))
+        assertThatThrownBy(() -> chessBoard.move(source, target))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("target으로 이동할 수 없습니다.");
     }
@@ -114,13 +69,16 @@ public class ChessBoardTest {
     void isTargetNotSameColor() {
         // given
         HashMap<Position, Piece> board = new HashMap<>();
-        board.put(Position.of("b2"), new Pawn(PieceColor.WHITE));
-        board.put(Position.of("c3"), new Pawn(PieceColor.BLACK));
+        Position source = Position.of("b2");
+        Position target = Position.of("c3");
+
+        board.put(source, new Pawn(PieceColor.WHITE));
+        board.put(target, new Pawn(PieceColor.BLACK));
 
         ChessBoard chessBoard = new ChessBoard(board);
 
         // when & then
-        assertThatCode(() -> chessBoard.move("b2", "c3", Turn.first())).doesNotThrowAnyException();
+        assertThatCode(() -> chessBoard.move(source, target)).doesNotThrowAnyException();
     }
 
     @DisplayName("기물이 이동할 수 없는 방식으로 움직이면 예외를 발생한다.")
@@ -128,12 +86,14 @@ public class ChessBoardTest {
     void validatePieceMovement() {
         // given
         HashMap<Position, Piece> board = new HashMap<>();
-        board.put(Position.of("b2"), new Pawn(PieceColor.WHITE));
+        Position source = Position.of("b2");
+        Position target = Position.of("b7");
+        board.put(source, new Pawn(PieceColor.WHITE));
 
         ChessBoard chessBoard = new ChessBoard(board);
 
         // when & then
-        assertThatThrownBy(() -> chessBoard.move("b2", "b7", Turn.first()))
+        assertThatThrownBy(() -> chessBoard.move(source, target))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("기물이 이동할 수 없는 방식입니다.");
     }
@@ -143,13 +103,16 @@ public class ChessBoardTest {
     void canKnightMoveWhenBlocked() {
         // given
         HashMap<Position, Piece> board = new HashMap<>();
-        board.put(Position.of("b2"), new Knight(PieceColor.WHITE));
+        Position source = Position.of("b2");
+        Position target = Position.of("c4");
+
+        board.put(source, new Knight(PieceColor.WHITE));
         board.put(Position.of("b3"), new Pawn(PieceColor.WHITE));
 
         ChessBoard chessBoard = new ChessBoard(board);
 
         // when & then
-        assertThatCode(() -> chessBoard.move("b2", "c4", Turn.first())).doesNotThrowAnyException();
+        assertThatCode(() -> chessBoard.move(source, target)).doesNotThrowAnyException();
     }
 
     @DisplayName("나이트 외에는 Source와 Target 사이에 다른 기물이 존재하면 이동할 수 없다.")
@@ -157,13 +120,16 @@ public class ChessBoardTest {
     void cannotMoveWhenBlocked() {
         // given
         HashMap<Position, Piece> board = new HashMap<>();
-        board.put(Position.of("b2"), new Rook(PieceColor.WHITE));
+        Position source = Position.of("b2");
+        Position target = Position.of("b4");
+
+        board.put(source, new Rook(PieceColor.WHITE));
         board.put(Position.of("b3"), new Pawn(PieceColor.WHITE));
 
         ChessBoard chessBoard = new ChessBoard(board);
 
         // when & then
-        assertThatThrownBy(() -> chessBoard.move("b2", "b4", Turn.first()))
+        assertThatThrownBy(() -> chessBoard.move(source, target))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("기물이 이동할 수 없는 방식입니다.");
     }

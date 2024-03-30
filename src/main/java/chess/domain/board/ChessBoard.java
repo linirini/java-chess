@@ -1,23 +1,17 @@
 package chess.domain.board;
 
-import chess.domain.Turn;
 import chess.domain.piece.Piece;
+import chess.domain.piece.PieceColor;
 import chess.domain.position.ChessDirection;
 import chess.domain.position.PieceRelation;
 import chess.domain.position.Position;
-import chess.dto.PieceInfos;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ChessBoard {
-    private static final String INVALID_SOURCE = "source에 이동할 수 있는 기물이 존재하지 않습니다.";
-    private static final String INVALID_POSITIONS = "source와 target이 같을 수 없습니다.";
     private static final String INVALID_TARGET = "target으로 이동할 수 없습니다.";
-    private static final String INVALID_TURN = "%s의 차례가 아닙니다.";
     private static final String INVALID_MOVEMENT = "기물이 이동할 수 없는 방식입니다.";
+    private static final String NO_PIECE = "주어진 위치에 기물이 존재하지 않습니다.";
 
     private final Map<Position, Piece> board;
 
@@ -25,42 +19,11 @@ public class ChessBoard {
         this.board = new HashMap<>(board);
     }
 
-    public PieceInfos status() {
-        return PieceInfos.from(board);
-    }
-
-    public void move(final String from, final String to, final Turn turn) {
-        Position source = Position.of(from);
-        Position target = Position.of(to);
-
-        validate(turn, source, target);
+    public void move(final Position source, final Position target) {
+        validateTarget(source, target);
+        validateMovement(source, target);
 
         updateBoard(source, target);
-        turn.next();
-    }
-
-    private void validate(final Turn turn, final Position source, final Position target) {
-        validatePosition(source, target);
-        validateTarget(source, target);
-        validateTurn(source, turn);
-        validateMovement(source, target);
-    }
-
-    private void validatePosition(final Position source, final Position target) {
-        validateSource(source);
-        validateIdentity(source, target);
-    }
-
-    private void validateSource(final Position source) {
-        if (!isExist(source)) {
-            throw new IllegalArgumentException(INVALID_SOURCE);
-        }
-    }
-
-    private void validateIdentity(final Position source, final Position target) {
-        if (source == target) {
-            throw new IllegalArgumentException(INVALID_POSITIONS);
-        }
     }
 
     private void validateTarget(final Position source, final Position target) {
@@ -68,13 +31,6 @@ public class ChessBoard {
         PieceRelation relation = PieceRelation.determine(sourcePiece, board.get(target));
         if (relation.isPeer()) {
             throw new IllegalArgumentException(INVALID_TARGET);
-        }
-    }
-
-    private void validateTurn(final Position source, final Turn turn) {
-        Piece sourcePiece = board.get(source);
-        if (turn.isNotTurnOwner(sourcePiece.color())) {
-            throw new IllegalArgumentException(String.format(INVALID_TURN, sourcePiece.color()));
         }
     }
 
@@ -104,7 +60,14 @@ public class ChessBoard {
         return route;
     }
 
-    private boolean isExist(final Position position) {
+    public PieceColor findColorOf(final Position position) {
+        if(isExist(position)){
+            throw new IllegalArgumentException(NO_PIECE);
+        }
+        return board.get(position).color();
+    }
+
+    public boolean isExist(final Position position) {
         return board.containsKey(position);
     }
 
@@ -112,5 +75,9 @@ public class ChessBoard {
         Piece sourcePiece = board.get(source);
         board.put(target, sourcePiece);
         board.remove(source);
+    }
+
+    public Map<Position, Piece> status() {
+        return Collections.unmodifiableMap(board);
     }
 }

@@ -3,7 +3,7 @@ package chess.view;
 import chess.domain.position.ChessFile;
 import chess.domain.position.ChessRank;
 import chess.dto.PieceInfo;
-import chess.dto.PieceInfos;
+import chess.dto.BoardStatus;
 
 import java.util.Arrays;
 import java.util.StringJoiner;
@@ -31,7 +31,7 @@ public class OutputView {
         System.out.println(String.format(startMessageJoiner.toString()));
     }
 
-    public void printChessBoard(final PieceInfos status) {
+    public void printChessBoard(final BoardStatus status) {
         String[][] board = createInitBoard();
         applyBoardStatus(status, board);
 
@@ -50,7 +50,7 @@ public class OutputView {
         return board;
     }
 
-    private void applyBoardStatus(final PieceInfos status, final String[][] board) {
+    private void applyBoardStatus(final BoardStatus status, final String[][] board) {
         for (PieceInfo pieceInfo : status.pieceInfos()) {
             PieceColorView color = PieceColorView.find(pieceInfo.pieceColor());
             String name = PieceTypeView.findViewName(pieceInfo.pieceType());
