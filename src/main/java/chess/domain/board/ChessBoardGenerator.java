@@ -10,7 +10,7 @@ import chess.domain.position.Position;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ChessBoardGenerator implements BoardGenerator{
+public class ChessBoardGenerator implements BoardGenerator {
     private final static ChessBoardGenerator INSTANCE = new ChessBoardGenerator();
 
     private ChessBoardGenerator() {

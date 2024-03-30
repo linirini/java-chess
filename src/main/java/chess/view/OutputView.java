@@ -1,9 +1,9 @@
 package chess.view;
 
-import chess.dto.GameStatus;
 import chess.domain.position.ChessFile;
 import chess.domain.position.ChessRank;
 import chess.dto.BoardStatus;
+import chess.dto.GameStatus;
 import chess.dto.PieceInfo;
 
 import java.util.Arrays;
@@ -75,5 +75,9 @@ public class OutputView {
 
     public void printGameErrorMessage(final String message) {
         System.out.println(ERROR_PREFIX + message + System.lineSeparator());
+    }
+
+    public void printEndMessage() {
+        System.out.println("게임이 종료되었습니다.");
     }
 }

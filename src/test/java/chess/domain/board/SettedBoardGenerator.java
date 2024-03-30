@@ -5,7 +5,7 @@ import chess.domain.position.Position;
 
 import java.util.Map;
 
-public class SettedBoardGenerator implements BoardGenerator{
+public class SettedBoardGenerator implements BoardGenerator {
 
     private final Map<Position, Piece> board;
 

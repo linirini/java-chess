@@ -61,7 +61,7 @@ public class ChessBoard {
     }
 
     public PieceColor findColorOfPiece(final Position position) {
-        if(!isExist(position)){
+        if (!isExist(position)) {
             throw new IllegalArgumentException(NO_PIECE);
         }
         return board.get(position).color();
