@@ -25,4 +25,9 @@ public class FakeRoomDao implements RoomRepository {
 
         return room.getId();
     }
+
+    @Override
+    public boolean isExistName(final String name) {
+        return rooms.containsKey(name);
+    }
 }

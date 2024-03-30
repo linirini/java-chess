@@ -12,4 +12,9 @@ public class RoomDao implements RoomRepository {
     public long findIdByName(final String name) {
         return 0;
     }
+
+    @Override
+    public boolean isExistName(final String name) {
+        return false;
+    }
 }

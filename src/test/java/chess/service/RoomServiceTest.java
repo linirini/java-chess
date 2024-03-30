@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class RoomServiceTest {
     RoomRepository roomRepository;
@@ -34,5 +35,17 @@ class RoomServiceTest {
 
         //then
         assertThat(result).isEqualTo(id);
+    }
+
+    @DisplayName("존재하지 않는 이름으로 게임방을 조회를 시도하면 예외를 발생시킨다.")
+    @Test
+    void isNotExistName() {
+        //given
+        String name = "리니방";
+
+        //when & then
+        assertThatThrownBy(() -> roomService.findIdByName(name))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("'" + name + "'이라는 이름의 방을 찾을 수 없습니다.");
     }
 }
