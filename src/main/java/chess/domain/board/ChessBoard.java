@@ -60,7 +60,7 @@ public class ChessBoard {
         return route;
     }
 
-    public PieceColor findColorOf(final Position position) {
+    public PieceColor findColorOfPiece(final Position position) {
         if(!isExist(position)){
             throw new IllegalArgumentException(NO_PIECE);
         }

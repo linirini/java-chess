@@ -39,7 +39,7 @@ public class ChessGame {
     }
 
     private void validateTurn(final Position source) {
-        PieceColor color = board.findColorOf(source);
+        PieceColor color = board.findColorOfPiece(source);
         if (turn.isNotTurnOwner(color)) {
             throw new IllegalArgumentException(String.format(INVALID_TURN, color));
         }

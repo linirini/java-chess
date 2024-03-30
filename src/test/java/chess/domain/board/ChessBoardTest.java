@@ -133,4 +133,72 @@ public class ChessBoardTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("기물이 이동할 수 없는 방식입니다.");
     }
+
+    @DisplayName("주어진 위치에 기물이 존재한다.")
+    @Test
+    void pieceExists() {
+        // given
+        HashMap<Position, Piece> board = new HashMap<>();
+        Position position = Position.of("b2");
+
+        board.put(position, new Rook(PieceColor.WHITE));
+
+        ChessBoard chessBoard = new ChessBoard(board);
+
+        // when
+        boolean result = chessBoard.isExist(position);
+
+        // then
+        assertThat(result).isTrue();
+    }
+
+    @DisplayName("주어진 위치에 기물이 존재한다.")
+    @Test
+    void pieceDoesNotExist() {
+        // given
+        HashMap<Position, Piece> board = new HashMap<>();
+        Position position = Position.of("b2");
+
+        ChessBoard chessBoard = new ChessBoard(board);
+
+        // when
+        boolean result = chessBoard.isExist(position);
+
+        // then
+        assertThat(result).isFalse();
+    }
+
+    @DisplayName("주어진 위치에 있는 기물의 색깔을 반환한다.")
+    @Test
+    void findColorOfPiece() {
+        // given
+        HashMap<Position, Piece> board = new HashMap<>();
+        Position position = Position.of("b2");
+        PieceColor expectedColor = PieceColor.BLACK;
+
+        board.put(position, new Rook(expectedColor));
+
+        ChessBoard chessBoard = new ChessBoard(board);
+
+        // when
+        PieceColor color = chessBoard.findColorOfPiece(position);
+
+        // then
+        assertThat(color).isEqualTo(expectedColor);
+    }
+
+    @DisplayName("주어진 위치에 기물이 없을 때 색깔을 반환하려고 하면 예외를 던진다.")
+    @Test
+    void cannotFindColorOfPiece() {
+        // given
+        HashMap<Position, Piece> board = new HashMap<>();
+        Position position = Position.of("b2");
+
+        ChessBoard chessBoard = new ChessBoard(board);
+
+        // when & then
+        assertThatThrownBy(() -> chessBoard.findColorOfPiece(position))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("주어진 위치에 기물이 존재하지 않습니다.");
+    }
 }
