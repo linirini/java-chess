@@ -63,4 +63,18 @@ class RoomServiceTest {
         //then
         assertThat(roomRepository.isExistName(name)).isTrue();
     }
+
+    @DisplayName("중복된 이름으로 방을 생성하려고 하면 예외를 발생시킨다.")
+    @Test
+    void createDuplicatedRoom() {
+        //given
+        String name = "리니방";
+        Room room = new Room(name);
+        roomRepository.save(room);
+
+        //when & then
+        assertThatThrownBy(() -> roomService.create(name))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("'" + name + "'은 이미 존재하는 방 이름입니다.");
+    }
 }

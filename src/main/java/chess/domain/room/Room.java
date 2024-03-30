@@ -6,7 +6,7 @@ public class Room {
     private final Long id;
     private final Name name;
 
-    public Room(final String name){
+    public Room(final String name) {
         this(null, new Name(name));
     }
 

@@ -16,6 +16,9 @@ public class RoomService {
     }
 
     public long create(final String name) {
+        if (roomRepository.isExistName(name)) {
+            throw new IllegalArgumentException(String.format("'%s'은 이미 존재하는 방 이름입니다.", name));
+        }
         Room room = new Room(name);
         return roomRepository.save(room);
     }

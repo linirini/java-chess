@@ -17,16 +17,16 @@ public class Name {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(value);
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         final Name name = (Name) o;
         return Objects.equals(value, name.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(value);
     }
 
     public String getValue() {
