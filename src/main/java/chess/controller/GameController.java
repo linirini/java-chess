@@ -26,7 +26,7 @@ public class GameController {
         this.commands = CommandFactory.getInstance().create();
     }
 
-    public void run() {
+    public void run(long roomId) {
         outputView.printGameStartMessage();
         start();
         ChessGame game = new ChessGame(ChessBoardGenerator.getInstance());
