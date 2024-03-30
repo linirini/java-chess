@@ -2,6 +2,8 @@ package chess.repository;
 
 import chess.domain.room.Room;
 
+import java.util.Optional;
+
 public class RoomDao implements RoomRepository {
     @Override
     public long save(final Room room) {
