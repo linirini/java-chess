@@ -1,5 +1,6 @@
 package chess.repository;
 
+import chess.domain.game.Turn;
 import chess.domain.room.Room;
 
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.Optional;
 
 public class RoomDao implements RoomRepository {
     @Override
-    public long save(final Room room) {
+    public long save(final Room room, final Turn turn) {
         return 0;
     }
 
@@ -24,5 +25,10 @@ public class RoomDao implements RoomRepository {
     @Override
     public List<Room> findAll() {
         return null;
+    }
+
+    @Override
+    public Optional<Turn> findTurnById(final long roomId) {
+        return Optional.empty();
     }
 }

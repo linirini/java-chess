@@ -23,8 +23,12 @@ public class ChessGame {
         this(null, boardGenerator.generate(), Turn.first());
     }
 
-    public ChessGame(final BoardGenerator boardGenerator, final Turn turn) {
-        this(null, boardGenerator.generate(), Turn.first());
+    public static ChessGame create(final long roomId, final BoardGenerator boardGenerator) {
+        return new ChessGame(roomId, boardGenerator.generate(), Turn.first());
+    }
+
+    public static ChessGame enter(final Long roomId, final Map<Position, Piece> board, Turn turn){
+        return new ChessGame(roomId, board, turn);
     }
 
     public ChessGame(final Long roomId, final Map<Position, Piece> board, Turn turn){

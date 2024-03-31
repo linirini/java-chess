@@ -8,5 +8,7 @@ import java.util.Map;
 public interface BoardRepository {
     Map<Position, Piece> findAllByRoomId(long roomId);
 
-    void save(Position position, long pieceId, long roomId);
+    void save(Position position, Piece piece, long roomId);
+
+    boolean isExistByRoomId(long roomId);
 }

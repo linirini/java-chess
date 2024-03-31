@@ -17,12 +17,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class GameServiceTest {
     GameService gameService;
     BoardRepository boardRepository;
     RoomRepository roomRepository;
-    PieceRepository pieceRepository;
     Room room;
     long roomId;
     Map<Position, Piece> pieces;
@@ -32,8 +32,7 @@ class GameServiceTest {
     void init() {
         boardRepository = new FakeBoardDao();
         roomRepository = new FakeRoomDao();
-        pieceRepository = new FakePieceDao();
-        gameService = new GameService(boardRepository, roomRepository, pieceRepository);
+        gameService = new GameService(boardRepository, roomRepository);
 
         String name = "리니방";
         room = new Room(name);
@@ -47,7 +46,15 @@ class GameServiceTest {
         savePieces(pieces);
     }
 
-    @DisplayName("room id로 ChessGame을 찾아온다.")
+    private void savePieces(final Map<Position, Piece> pieces) {
+        for (final Map.Entry<Position, Piece> entry : pieces.entrySet()) {
+            Position position = entry.getKey();
+            Piece piece = entry.getValue();
+            boardRepository.save(position, piece, roomId);
+        }
+    }
+
+    @DisplayName("room id로 진행 중이던 ChessGame을 입장한다.")
     @Test
     void findGame() {
         //given
@@ -57,16 +64,26 @@ class GameServiceTest {
         ChessGame game = gameService.findGame(roomId);
 
         //then
-        assertThat(game.turn()).isEqualTo(expectedTurn.getTurn());
+        assertAll(
+                () -> assertThat(game.turn()).isEqualTo(expectedTurn.getTurn()),
+                () -> assertThat(game.getBoardStatus().pieceInfos()).hasSize(pieces.size())
+        );
     }
 
-    private void savePieces(final Map<Position, Piece> pieces) {
-        for (final Map.Entry<Position, Piece> entry : pieces.entrySet()) {
-            Position position = entry.getKey();
-            String type = entry.getValue().type().name();
-            String color = entry.getValue().color().name();
-            long pieceId = pieceRepository.findIdByTypeAndColor(type, color);
-            boardRepository.save(position, pieceId, roomId);
-        }
+    @DisplayName("진행 중이던 게임이 없으면 게임을 새로 생성한다.")
+    @Test
+    void createGame() {
+        //given
+        long newRoomId = roomRepository.save(new Room("찰리방"), Turn.first());
+        int initialPieceCount = 32;
+
+        //when
+        ChessGame game = gameService.findGame(newRoomId);
+
+        //then
+        assertAll(
+                () -> assertThat(game.turn()).isEqualTo(Turn.first().getTurn()),
+                () -> assertThat(game.getBoardStatus().pieceInfos()).hasSize(initialPieceCount)
+        );
     }
 }
