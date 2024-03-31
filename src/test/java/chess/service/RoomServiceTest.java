@@ -1,5 +1,6 @@
 package chess.service;
 
+import chess.domain.game.Turn;
 import chess.domain.room.Room;
 import chess.dto.RoomInfos;
 import chess.repository.FakeRoomDao;
@@ -16,11 +17,13 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class RoomServiceTest {
     RoomRepository roomRepository;
     RoomService roomService;
+    Turn turn;
 
     @BeforeEach
     void init() {
         roomRepository = new FakeRoomDao();
         roomService = new RoomService(roomRepository);
+        turn = Turn.first();
     }
 
     @DisplayName("이름으로 게임방을 조회한다.")
@@ -29,7 +32,7 @@ class RoomServiceTest {
         //given
         String name = "리니방";
         Room room = new Room(name);
-        long id = roomRepository.save(room);
+        long id = roomRepository.save(room, turn);
 
         //when
         long result = roomService.findIdByName(name);
@@ -69,7 +72,7 @@ class RoomServiceTest {
         //given
         String name = "리니방";
         Room room = new Room(name);
-        roomRepository.save(room);
+        roomRepository.save(room, turn);
 
         //when & then
         assertThatThrownBy(() -> roomService.create(name))
@@ -84,7 +87,7 @@ class RoomServiceTest {
         List<String> names = List.of("리니방", "포비방", "찰리방");
         for (final String name : names) {
             Room room = new Room(name);
-            roomRepository.save(room);
+            roomRepository.save(room, turn);
         }
 
         //when

@@ -15,12 +15,22 @@ public class ChessGame {
     private static final String INVALID_POSITIONS = "source와 target이 같을 수 없습니다.";
     private static final String INVALID_TURN = "%s의 차례가 아닙니다.";
 
+    private final Long roomId;
     private final ChessBoard board;
     private final Turn turn;
 
     public ChessGame(final BoardGenerator boardGenerator) {
-        this.board = new ChessBoard(boardGenerator.generate());
-        this.turn = Turn.first();
+        this(null, boardGenerator.generate(), Turn.first());
+    }
+
+    public ChessGame(final BoardGenerator boardGenerator, final Turn turn) {
+        this(null, boardGenerator.generate(), Turn.first());
+    }
+
+    public ChessGame(final Long roomId, final Map<Position, Piece> board, Turn turn){
+        this.roomId = roomId;
+        this.board = new ChessBoard(board);
+        this.turn = turn;
     }
 
     public void move(final String from, final String to) {
@@ -70,5 +80,9 @@ public class ChessGame {
     public boolean isTerminated() {
         GameResult gameResult = new GameResult(board.status());
         return gameResult.isKingAttacked();
+    }
+
+    public PieceColor turn(){
+        return turn.getTurn();
     }
 }

@@ -1,5 +1,6 @@
 package chess.service;
 
+import chess.domain.game.Turn;
 import chess.domain.room.Room;
 import chess.dto.RoomInfos;
 import chess.repository.RoomRepository;
@@ -24,7 +25,8 @@ public class RoomService {
             throw new IllegalArgumentException(String.format("'%s'은 이미 존재하는 방 이름입니다.", name));
         }
         Room room = new Room(name);
-        return roomRepository.save(room);
+        Turn turn = Turn.first();
+        return roomRepository.save(room, turn);
     }
 
     public RoomInfos findAll() {
