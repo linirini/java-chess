@@ -2,10 +2,10 @@ package chess.controller;
 
 import chess.controller.command.Command;
 import chess.controller.command.CommandFactory;
-import chess.domain.board.ChessBoardGenerator;
 import chess.domain.game.ChessGame;
 import chess.dto.CommandInfo;
 import chess.dto.CommandType;
+import chess.service.GameService;
 import chess.view.InputView;
 import chess.view.OutputView;
 
@@ -19,17 +19,19 @@ public class GameController {
     private final InputView inputView;
     private final OutputView outputView;
     private final Map<CommandType, Command> commands;
+    private final GameService gameService;
 
-    public GameController(final InputView inputView, final OutputView outputView) {
+    public GameController(final InputView inputView, final OutputView outputView, final GameService gameService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.gameService = gameService;
         this.commands = CommandFactory.getInstance().create();
     }
 
     public void run(long roomId) {
         outputView.printGameStartMessage();
         start();
-        ChessGame game = new ChessGame(ChessBoardGenerator.getInstance());
+        ChessGame game = gameService.findGame(roomId);
         outputView.printChessBoard(game.getBoardStatus());
 
         play(game);
@@ -69,7 +71,7 @@ public class GameController {
 
     private void executeCommand(final ChessGame game, final CommandInfo commandInfo) {
         try {
-            commands.get(commandInfo.type()).execute(game, commandInfo, outputView);
+            commands.get(commandInfo.type()).execute(game, commandInfo, outputView, gameService);
         } catch (IllegalArgumentException e) {
             outputView.printGameErrorMessage(e.getMessage());
             play(game);

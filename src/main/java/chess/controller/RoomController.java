@@ -24,14 +24,23 @@ public class RoomController {
 
     public void enter() {
         outputView.printGameMessage();
+        outputView.printRooms(roomService.findAll());
+        enterGame();
+    }
+
+    private void enterGame() {
         CommandInfo commandInfo = requestUntilValid(this::requestRoom);
-        long id = requestUntilValid(() -> findRoom(commandInfo));
-        gameController.run(id);
+        try {
+            long id = findRoom(commandInfo);
+            gameController.run(id);
+        } catch (IllegalArgumentException e) {
+            outputView.printGameErrorMessage(e.getMessage());
+            enterGame();
+        }
     }
 
     private long findRoom(final CommandInfo commandInfo) {
         if (commandInfo.type().isEnter()) {
-            outputView.printRooms(roomService.findAll());
             return roomService.findIdByName(commandInfo.arguments().get(0));
         }
         return roomService.create(commandInfo.arguments().get(0));

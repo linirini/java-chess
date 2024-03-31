@@ -8,7 +8,10 @@ import chess.domain.piece.type.Knight;
 import chess.domain.piece.type.Rook;
 import chess.domain.position.Position;
 import chess.domain.room.Room;
-import chess.repository.*;
+import chess.repository.BoardRepository;
+import chess.repository.FakeBoardDao;
+import chess.repository.FakeRoomDao;
+import chess.repository.RoomRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -65,7 +68,7 @@ class GameServiceTest {
 
         //then
         assertAll(
-                () -> assertThat(game.turn()).isEqualTo(expectedTurn.getTurn()),
+                () -> assertThat(game.turn().getTurn()).isEqualTo(expectedTurn.getTurn()),
                 () -> assertThat(game.getBoardStatus().pieceInfos()).hasSize(pieces.size())
         );
     }
@@ -82,8 +85,28 @@ class GameServiceTest {
 
         //then
         assertAll(
-                () -> assertThat(game.turn()).isEqualTo(Turn.first().getTurn()),
+                () -> assertThat(game.turn().getTurn()).isEqualTo(Turn.first().getTurn()),
                 () -> assertThat(game.getBoardStatus().pieceInfos()).hasSize(initialPieceCount)
+        );
+    }
+
+    @DisplayName("기물이 움직인다")
+    @Test
+    void move() {
+        //given
+        ChessGame game = gameService.findGame(roomId);
+        String source = "b7";
+        String target = "b5";
+        Turn expectedTurn = new Turn(PieceColor.WHITE);
+
+        //when
+        gameService.move(game, source, target);
+
+        //then
+        assertAll(
+                () -> assertThat(boardRepository.findPieceIdByRoomIdAndPosition(roomId, Position.of(source))).isEmpty(),
+                () -> assertThat(boardRepository.findPieceIdByRoomIdAndPosition(roomId, Position.of(target))).isPresent(),
+                () -> assertThat(roomRepository.findTurnById(roomId).get().getTurn()).isEqualTo(expectedTurn.getTurn())
         );
     }
 }

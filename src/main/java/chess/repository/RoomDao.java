@@ -31,4 +31,9 @@ public class RoomDao implements RoomRepository {
     public Optional<Turn> findTurnById(final long roomId) {
         return Optional.empty();
     }
+
+    @Override
+    public void updateTurnByRoomId(final long roomId, final Turn turn) {
+
+    }
 }

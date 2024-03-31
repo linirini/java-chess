@@ -30,13 +30,12 @@ class ChessGameTest {
 
         ChessGame chessGame = new ChessGame(settedBoardGenerator);
 
-        String source = "b2";
-        String target = "b3";
+        Position source = Position.of("b2");
+        Position target = Position.of("b3");
 
         chessGame.move(source, target);
 
-        String nextTarget = "b4";
-
+        Position nextTarget = Position.of("b4");
         // when & then
         assertThatThrownBy(() -> chessGame.move(target, nextTarget))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -51,8 +50,8 @@ class ChessGameTest {
 
         ChessGame chessGame = new ChessGame(settedBoardGenerator);
 
-        String source = "b2";
-        String target = "b3";
+        Position source = Position.of("b2");
+        Position target = Position.of("b3");
 
         // when & then
         assertThatThrownBy(() -> chessGame.move(source, target))
@@ -71,8 +70,8 @@ class ChessGameTest {
 
         ChessGame chessGame = new ChessGame(settedBoardGenerator);
 
-        String source = "b3";
-        String target = "b3";
+        Position source = Position.of("b3");
+        Position target = Position.of("b3");
 
         // when & then
         assertThatThrownBy(() -> chessGame.move(source, target))

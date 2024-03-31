@@ -11,6 +11,7 @@ import chess.repository.RoomRepository;
 import java.util.Map;
 
 public class GameService {
+    private static final String PIECE_ID_NOT_FOUND = "해당 위치의 기물 정보를 찾을 수 없습니다.";
     private final BoardRepository boardRepository;
     private final RoomRepository roomRepository;
 
@@ -21,7 +22,7 @@ public class GameService {
 
     public ChessGame findGame(final long roomId) {
         Map<Position, Piece> pieces = boardRepository.findAllByRoomId(roomId);
-        if(isBoardNotReady(roomId)){
+        if (isBoardNotReady(roomId)) {
             createBoard(roomId);
             return ChessGame.create(roomId, ChessBoardGenerator.getInstance());
         }
@@ -39,5 +40,25 @@ public class GameService {
 
     private boolean isBoardNotReady(final long roomId) {
         return !boardRepository.isExistByRoomId(roomId);
+    }
+
+    public void move(final ChessGame game, final String from, final String to) {
+        Position source = Position.of(from);
+        Position target = Position.of(to);
+        game.move(source, target);
+        updateMovement(game, source, target);
+        roomRepository.updateTurnByRoomId(game.roomId(), game.turn());
+    }
+
+    private void updateMovement(final ChessGame game, final Position source, final Position target) {
+        long pieceId = boardRepository.findPieceIdByRoomIdAndPosition(game.roomId(), source)
+                .orElseThrow(() -> new IllegalArgumentException(PIECE_ID_NOT_FOUND));
+
+        boardRepository.deleteByRoomIdAndPosition(game.roomId(), source);
+        if (boardRepository.isExistByRoomIdAndPosition(game.roomId(), target)) {
+            boardRepository.deleteByRoomIdAndPosition(game.roomId(), target);
+        }
+
+        boardRepository.save(target, pieceId, game.roomId());
     }
 }

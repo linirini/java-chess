@@ -11,9 +11,11 @@ public interface RoomRepository {
 
     Optional<Room> findByName(final String name);
 
-    boolean isExistName(String name);
+    boolean isExistName(final String name);
 
     List<Room> findAll();
 
-    Optional<Turn> findTurnById(long roomId);
+    Optional<Turn> findTurnById(final long roomId);
+
+    void updateTurnByRoomId(final long roomId, final Turn turn);
 }

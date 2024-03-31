@@ -47,4 +47,9 @@ public class FakeRoomDao implements RoomRepository {
                 .map(Map.Entry::getValue)
                 .findAny();
     }
+
+    @Override
+    public void updateTurnByRoomId(final long roomId, final Turn turn) {
+        turns.replace(roomId, turn);
+    }
 }

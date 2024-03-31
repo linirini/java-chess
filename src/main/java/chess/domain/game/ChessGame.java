@@ -23,24 +23,21 @@ public class ChessGame {
         this(null, boardGenerator.generate(), Turn.first());
     }
 
-    public static ChessGame create(final long roomId, final BoardGenerator boardGenerator) {
-        return new ChessGame(roomId, boardGenerator.generate(), Turn.first());
-    }
-
-    public static ChessGame enter(final Long roomId, final Map<Position, Piece> board, Turn turn){
-        return new ChessGame(roomId, board, turn);
-    }
-
-    public ChessGame(final Long roomId, final Map<Position, Piece> board, Turn turn){
+    public ChessGame(final Long roomId, final Map<Position, Piece> board, Turn turn) {
         this.roomId = roomId;
         this.board = new ChessBoard(board);
         this.turn = turn;
     }
 
-    public void move(final String from, final String to) {
-        Position source = Position.of(from);
-        Position target = Position.of(to);
+    public static ChessGame create(final long roomId, final BoardGenerator boardGenerator) {
+        return new ChessGame(roomId, boardGenerator.generate(), Turn.first());
+    }
 
+    public static ChessGame enter(final Long roomId, final Map<Position, Piece> board, Turn turn) {
+        return new ChessGame(roomId, board, turn);
+    }
+
+    public void move(final Position source, final Position target) {
         validateSource(source);
         validateTurn(source);
         validateIdentity(source, target);
@@ -86,7 +83,11 @@ public class ChessGame {
         return gameResult.isKingAttacked();
     }
 
-    public PieceColor turn(){
-        return turn.getTurn();
+    public Turn turn() {
+        return turn;
+    }
+
+    public long roomId() {
+        return roomId;
     }
 }
