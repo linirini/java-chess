@@ -24,9 +24,10 @@ public class FakeRoomDao implements RoomRepository {
     }
 
     @Override
-    public Optional<Room> findByName(final String name) {
+    public Optional<Long> findIdByName(final String name) {
         return rooms.values().stream()
                 .filter(value -> value.getName().equals(name))
+                .map(Room::getId)
                 .findAny();
     }
 

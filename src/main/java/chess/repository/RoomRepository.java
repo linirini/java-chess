@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface RoomRepository {
     long save(final Room room, final Turn turn);
 
-    Optional<Room> findByName(final String name);
+    Optional<Long> findIdByName(final String name);
 
     boolean isExistName(final String name);
 

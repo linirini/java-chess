@@ -15,9 +15,8 @@ public class RoomService {
     }
 
     public long findIdByName(final String name) {
-        Room room = roomRepository.findByName(name)
+        return roomRepository.findIdByName(name)
                 .orElseThrow(() -> new IllegalArgumentException(String.format("'%s'이라는 이름의 방을 찾을 수 없습니다.", name)));
-        return room.getId();
     }
 
     public long create(final String name) {

@@ -13,7 +13,7 @@ public class RoomDao implements RoomRepository {
     }
 
     @Override
-    public Optional<Room> findByName(final String name) {
+    public Optional<Long> findIdByName(final String name) {
         return Optional.empty();
     }
 
