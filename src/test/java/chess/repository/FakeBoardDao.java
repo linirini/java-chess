@@ -32,7 +32,7 @@ public class FakeBoardDao implements BoardRepository {
     private final Map<Long, FakeBoard> boards = new ConcurrentHashMap<>();
 
     @Override
-    public Map<Position, Piece> findAllByRoomId(final long roomId) {
+    public Map<Position, Piece> findPositionAndPieceByRoomId(final long roomId) {
         List<FakeBoard> fakeBoards = boards.values().stream()
                 .filter(value -> value.roomId == roomId)
                 .toList();

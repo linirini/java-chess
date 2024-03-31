@@ -38,7 +38,7 @@ class GameServiceTest {
         gameService = new GameService(boardRepository, roomRepository);
 
         String name = "리니방";
-        room = new Room(name);
+        room = Room.of(name);
         turn = new Turn(PieceColor.BLACK);
         roomId = roomRepository.save(room, turn);
 
@@ -77,7 +77,7 @@ class GameServiceTest {
     @Test
     void createGame() {
         //given
-        long newRoomId = roomRepository.save(new Room("찰리방"), Turn.first());
+        long newRoomId = roomRepository.save(Room.of("찰리방"), Turn.first());
         int initialPieceCount = 32;
 
         //when

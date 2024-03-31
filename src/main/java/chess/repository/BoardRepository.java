@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public interface BoardRepository {
-    Map<Position, Piece> findAllByRoomId(final long roomId);
+    Map<Position, Piece> findPositionAndPieceByRoomId(final long roomId);
 
     void save(final Position position, final Piece piece, final long roomId);
 

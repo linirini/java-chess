@@ -31,7 +31,7 @@ class RoomServiceTest {
     void findIdByName() {
         //given
         String name = "리니방";
-        Room room = new Room(name);
+        Room room = Room.of(name);
         long id = roomRepository.save(room, turn);
 
         //when
@@ -71,7 +71,7 @@ class RoomServiceTest {
     void createDuplicatedRoom() {
         //given
         String name = "리니방";
-        Room room = new Room(name);
+        Room room = Room.of(name);
         roomRepository.save(room, turn);
 
         //when & then
@@ -86,7 +86,7 @@ class RoomServiceTest {
         //given
         List<String> names = List.of("리니방", "포비방", "찰리방");
         for (final String name : names) {
-            Room room = new Room(name);
+            Room room = Room.of(name);
             roomRepository.save(room, turn);
         }
 

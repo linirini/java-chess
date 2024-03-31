@@ -21,7 +21,7 @@ public class GameService {
     }
 
     public ChessGame findGame(final long roomId) {
-        Map<Position, Piece> pieces = boardRepository.findAllByRoomId(roomId);
+        Map<Position, Piece> pieces = boardRepository.findPositionAndPieceByRoomId(roomId);
         if (isBoardNotReady(roomId)) {
             createBoard(roomId);
             return ChessGame.create(roomId, ChessBoardGenerator.getInstance());

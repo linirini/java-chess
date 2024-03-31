@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public class BoardDao implements BoardRepository {
     @Override
-    public Map<Position, Piece> findAllByRoomId(final long roomId) {
+    public Map<Position, Piece> findPositionAndPieceByRoomId(final long roomId) {
         return null;
     }
 
