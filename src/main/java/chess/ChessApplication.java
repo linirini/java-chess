@@ -14,11 +14,14 @@ import chess.view.OutputView;
 public class ChessApplication {
     public static void main(String[] args) {
         RoomRepository roomRepository = new RoomDao();
-        RoomService roomService = new RoomService(roomRepository);
         BoardRepository boardRepository = new BoardDao();
+
+        RoomService roomService = new RoomService(roomRepository);
         GameService gameService = new GameService(boardRepository, roomRepository);
+
         GameController gameController = new GameController(InputView.getInstance(), OutputView.getInstance(), gameService);
         RoomController roomController = new RoomController(InputView.getInstance(), OutputView.getInstance(), roomService, gameController);
+
         roomController.enter();
     }
 }

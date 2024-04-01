@@ -21,11 +21,11 @@ public class GameService {
     }
 
     public ChessGame findGame(final long roomId) {
-        Map<Position, Piece> pieces = boardRepository.findPositionAndPieceByRoomId(roomId);
         if (isBoardNotReady(roomId)) {
             createBoard(roomId);
             return ChessGame.create(roomId, ChessBoardGenerator.getInstance());
         }
+        Map<Position, Piece> pieces = boardRepository.findPositionAndPieceByRoomId(roomId);
         Turn turn = roomRepository.findTurnById(roomId).orElseThrow();
         return ChessGame.enter(roomId, pieces, turn);
     }

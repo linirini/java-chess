@@ -2,16 +2,19 @@ package chess.domain.piece.type;
 
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
-import chess.domain.piece.PieceType;
 import chess.domain.position.ChessDirection;
 import chess.domain.position.ChessRank;
 import chess.domain.position.PieceRelation;
 import chess.domain.position.Position;
 
+import java.util.Set;
+
 public final class Pawn extends Piece {
+    private static final Set<ChessDirection> WHITE_DIRECTIONS = ChessDirection.upSide();
+    private static final Set<ChessDirection> BLACK_DIRECTIONS = ChessDirection.downSide();
 
     public Pawn(final PieceColor color) {
-        super(color, PieceType.PAWN);
+        super(color);
     }
 
     @Override
@@ -29,17 +32,17 @@ public final class Pawn extends Piece {
     private boolean canAttack(final Position source, final Position target) {
         ChessDirection chessDirection = findDirection(source, target);
         if (color.isWhite()) {
-            return chessDirection.isDiagonal() && chessDirection.isUpSide();
+            return WHITE_DIRECTIONS.contains(chessDirection) && chessDirection.isDiagonal();
         }
-        return chessDirection.isDiagonal() && chessDirection.isDownSide();
+        return BLACK_DIRECTIONS.contains(chessDirection) && chessDirection.isDiagonal();
     }
 
     private boolean canMove(final Position source, final Position target) {
         ChessDirection chessDirection = findDirection(source, target);
         if (color.isWhite()) {
-            return chessDirection.isVertical() && chessDirection.isUpSide();
+            return WHITE_DIRECTIONS.contains(chessDirection) && chessDirection.isVertical();
         }
-        return chessDirection.isVertical() && chessDirection.isDownSide();
+        return BLACK_DIRECTIONS.contains(chessDirection) && chessDirection.isVertical();
     }
 
     private boolean isMovableDistance(final Position source, final Position target) {

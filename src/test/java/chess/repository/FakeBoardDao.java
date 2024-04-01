@@ -2,6 +2,7 @@ package chess.repository;
 
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
+import chess.domain.piece.PieceType;
 import chess.domain.piece.type.*;
 import chess.domain.position.Position;
 
@@ -32,18 +33,6 @@ public class FakeBoardDao implements BoardRepository {
     private final Map<Long, FakeBoard> boards = new ConcurrentHashMap<>();
 
     @Override
-    public Map<Position, Piece> findPositionAndPieceByRoomId(final long roomId) {
-        List<FakeBoard> fakeBoards = boards.values().stream()
-                .filter(value -> value.roomId == roomId)
-                .toList();
-        Map<Position, Piece> pieces = new HashMap<>();
-        for (final FakeBoard fakeBoard : fakeBoards) {
-            pieces.put(fakeBoard.position, fakeBoard.piece);
-        }
-        return pieces;
-    }
-
-    @Override
     public void save(final Position position, final Piece piece, final long roomId) {
         long id = boards.size() + 1L;
         boards.put(id, new FakeBoard(position, piece, roomId));
@@ -64,6 +53,18 @@ public class FakeBoardDao implements BoardRepository {
     public boolean existsByRoomIdAndPosition(final long roomId, final Position position) {
         return boards.values().stream()
                 .anyMatch(value -> value.roomId == roomId && value.position.equals(position));
+    }
+
+    @Override
+    public Map<Position, Piece> findPositionAndPieceByRoomId(final long roomId) {
+        List<FakeBoard> fakeBoards = boards.values().stream()
+                .filter(value -> value.roomId == roomId)
+                .toList();
+        Map<Position, Piece> pieces = new HashMap<>();
+        for (final FakeBoard fakeBoard : fakeBoards) {
+            pieces.put(fakeBoard.position, fakeBoard.piece);
+        }
+        return pieces;
     }
 
     @Override
@@ -98,7 +99,7 @@ public class FakeBoardDao implements BoardRepository {
 
     private Optional<Long> findId(Piece piece) {
         return pieces.entrySet().stream()
-                .filter(entry -> entry.getValue().isColor(piece.color()) && entry.getValue().type() == piece.type())
+                .filter(entry -> entry.getValue().isColor(piece.color()) && PieceType.findType(entry.getValue()) == PieceType.findType(entry.getValue()))
                 .map(Map.Entry::getKey)
                 .findAny();
     }

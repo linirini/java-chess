@@ -1,5 +1,6 @@
 package chess.domain.game;
 
+import chess.domain.Score;
 import chess.domain.board.BoardGenerator;
 import chess.domain.board.ChessBoard;
 import chess.domain.piece.Piece;

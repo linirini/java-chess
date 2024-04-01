@@ -1,5 +1,7 @@
 package chess.domain.game;
 
+import chess.domain.PieceScore;
+import chess.domain.Score;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
 import chess.domain.piece.PieceType;
@@ -14,10 +16,10 @@ public class GameResult {
     private static final long KING_COUNT = 2;
     private static final String NO_KING = "King이 존재하지 않습니다.";
 
-    private final Map<Position, Piece> boardStatus;
+    private final Map<Position, Piece> pieces;
 
-    public GameResult(final Map<Position, Piece> boardStatus) {
-        this.boardStatus = boardStatus;
+    public GameResult(final Map<Position, Piece> pieces) {
+        this.pieces = pieces;
     }
 
     public Score calculateScore(final PieceColor color) {
@@ -27,11 +29,11 @@ public class GameResult {
 
     private double scoreExceptPawn(final PieceColor color) {
         double totalScore = 0;
-        List<Piece> pieces = boardStatus.values().stream()
-                .filter(piece -> piece.isColor(color) && !piece.isPawn())
+        List<Piece> pieces = this.pieces.values().stream()
+                .filter(piece -> piece.isColor(color) && !PieceType.isPawn(piece))
                 .toList();
         for (final Piece piece : pieces) {
-            totalScore += piece.score();
+            totalScore += PieceScore.findScore(piece).value();
         }
         return totalScore;
     }
@@ -48,7 +50,7 @@ public class GameResult {
         double totalScore = 0;
         List<Integer> onePawnOnFile = pawnCounts.stream().filter(count -> count == 1).toList();
         for (final Integer count : onePawnOnFile) {
-            totalScore += count * PieceType.PAWN.score();
+            totalScore += count * PieceScore.PAWN.getScore().value();
         }
         return totalScore;
     }
@@ -57,14 +59,14 @@ public class GameResult {
         double totalScore = 0;
         List<Integer> multiplePawnOnFile = pawnCounts.stream().filter(count -> count > 1).toList();
         for (final Integer count : multiplePawnOnFile) {
-            totalScore += count * PieceType.PAWN.halfScore();
+            totalScore += count * PieceScore.PAWN.getScore().halfValue();
         }
         return totalScore;
     }
 
     private int countPawns(final PieceColor color, final ChessFile file) {
-        return (int) boardStatus.entrySet().stream()
-                .filter(entry -> entry.getKey().isFile(file) && entry.getValue().isColor(color) && entry.getValue().isPawn())
+        return (int) pieces.entrySet().stream()
+                .filter(entry -> entry.getKey().isFile(file) && entry.getValue().isColor(color) && PieceType.isPawn(entry.getValue()))
                 .count();
     }
 
@@ -76,8 +78,8 @@ public class GameResult {
     }
 
     private Piece findKing() {
-        return boardStatus.values().stream()
-                .filter(Piece::isKing)
+        return pieces.values().stream()
+                .filter(PieceType::isKing)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(NO_KING));
     }
@@ -95,8 +97,8 @@ public class GameResult {
     }
 
     public boolean isKingAttacked() {
-        long count = boardStatus.values().stream()
-                .filter(Piece::isKing)
+        long count = pieces.values().stream()
+                .filter(PieceType::isKing)
                 .count();
         return count != KING_COUNT;
     }

@@ -5,11 +5,9 @@ import chess.domain.position.Position;
 
 public abstract class Piece {
     protected final PieceColor color;
-    protected final PieceType type;
 
-    public Piece(final PieceColor color, final PieceType type) {
+    public Piece(final PieceColor color) {
         this.color = color;
-        this.type = type;
     }
 
     public abstract boolean isMovable(final Position source, final Position target, final PieceRelation pieceRelation);
@@ -20,21 +18,5 @@ public abstract class Piece {
 
     public PieceColor color() {
         return color;
-    }
-
-    public PieceType type() {
-        return type;
-    }
-
-    public double score() {
-        return type.score();
-    }
-
-    public boolean isPawn() {
-        return type == PieceType.PAWN;
-    }
-
-    public boolean isKing() {
-        return type == PieceType.KING;
     }
 }

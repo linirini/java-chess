@@ -1,4 +1,4 @@
-package chess.domain.game;
+package chess.domain;
 
 import java.util.Objects;
 
@@ -35,7 +35,11 @@ public class Score {
         return Double.compare(score1.score, score) == 0;
     }
 
-    public double score() {
+    public double value() {
         return score;
+    }
+
+    public double halfValue() {
+        return score / 2;
     }
 }

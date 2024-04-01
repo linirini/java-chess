@@ -1,8 +1,9 @@
 package chess.domain.position;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public enum ChessDirection {
     UP(0, 1),
@@ -59,29 +60,29 @@ public enum ChessDirection {
         return rankDiff == 0 && fileDiff != 0;
     }
 
-    public static List<ChessDirection> LShapedDirections() {
-        return List.of(UP_UP_LEFT, UP_UP_RIGHT, RIGHT_RIGHT_UP, RIGHT_RIGHT_DOWN, LEFT_LEFT_DOWN, LEFT_LEFT_UP, DOWN_DOWN_LEFT, DOWN_DOWN_RIGHT);
+    public static Set<ChessDirection> LShapedDirections() {
+        return Set.of(UP_UP_LEFT, UP_UP_RIGHT, RIGHT_RIGHT_UP, RIGHT_RIGHT_DOWN, LEFT_LEFT_DOWN, LEFT_LEFT_UP, DOWN_DOWN_LEFT, DOWN_DOWN_RIGHT);
     }
 
-    public static List<ChessDirection> diagonal() {
-        return List.of(UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT);
+    public static Set<ChessDirection> diagonal() {
+        return Set.of(UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT);
     }
 
-    public static List<ChessDirection> cross() {
-        return List.of(UP, DOWN, RIGHT, LEFT);
+    public static Set<ChessDirection> cross() {
+        return Set.of(UP, DOWN, RIGHT, LEFT);
     }
 
-    public static List<ChessDirection> upSide() {
-        return List.of(UP, UP_LEFT, UP_RIGHT);
+    public static Set<ChessDirection> upSide() {
+        return Set.of(UP, UP_LEFT, UP_RIGHT);
     }
 
-    public static List<ChessDirection> downSide() {
-        return List.of(DOWN, DOWN_LEFT, DOWN_RIGHT);
+    public static Set<ChessDirection> downSide() {
+        return Set.of(DOWN, DOWN_LEFT, DOWN_RIGHT);
     }
 
-    public static List<ChessDirection> combine(List<ChessDirection>... directions) {
-        List<ChessDirection> combinedDirections = new ArrayList<>();
-        for (final List<ChessDirection> chessDirections : directions) {
+    public static Set<ChessDirection> combine(Set<ChessDirection>... directions) {
+        Set<ChessDirection> combinedDirections = new HashSet<>();
+        for (final Set<ChessDirection> chessDirections : directions) {
             combinedDirections.addAll(chessDirections);
         }
         return combinedDirections;
@@ -89,14 +90,6 @@ public enum ChessDirection {
 
     public boolean isDiagonal() {
         return diagonal().contains(this);
-    }
-
-    public boolean isUpSide() {
-        return upSide().contains(this);
-    }
-
-    public boolean isDownSide() {
-        return downSide().contains(this);
     }
 
     public boolean isVertical() {

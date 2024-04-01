@@ -41,21 +41,6 @@ public class RoomDao implements RoomRepository {
     }
 
     @Override
-    public Optional<Long> findIdByName(final String name) {
-        final String query = "SELECT room_id FROM room WHERE name = ?";
-        try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, name);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return Optional.of(resultSet.getLong("room_id"));
-            }
-            return Optional.empty();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
     public boolean existsByName(final String name) {
         final String query = "SELECT * FROM room WHERE name = ?";
         try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -77,6 +62,21 @@ public class RoomDao implements RoomRepository {
                 rooms.add(createRoom(resultSet));
             }
             return rooms;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Optional<Long> findIdByName(final String name) {
+        final String query = "SELECT room_id FROM room WHERE name = ?";
+        try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return Optional.of(resultSet.getLong("room_id"));
+            }
+            return Optional.empty();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

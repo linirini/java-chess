@@ -24,14 +24,6 @@ public class FakeRoomDao implements RoomRepository {
     }
 
     @Override
-    public Optional<Long> findIdByName(final String name) {
-        return rooms.values().stream()
-                .filter(value -> value.getName().equals(name))
-                .map(Room::getId)
-                .findAny();
-    }
-
-    @Override
     public boolean existsByName(final String name) {
         return rooms.values().stream().anyMatch(room -> room.getName().equals(name));
     }
@@ -39,6 +31,14 @@ public class FakeRoomDao implements RoomRepository {
     @Override
     public List<Room> findAll() {
         return rooms.values().stream().toList();
+    }
+
+    @Override
+    public Optional<Long> findIdByName(final String name) {
+        return rooms.values().stream()
+                .filter(value -> value.getName().equals(name))
+                .map(Room::getId)
+                .findAny();
     }
 
     @Override

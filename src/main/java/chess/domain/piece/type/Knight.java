@@ -2,14 +2,17 @@ package chess.domain.piece.type;
 
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
-import chess.domain.piece.PieceType;
 import chess.domain.position.ChessDirection;
 import chess.domain.position.PieceRelation;
 import chess.domain.position.Position;
 
+import java.util.Set;
+
 public final class Knight extends Piece {
+    private static final Set<ChessDirection> DIRECTIONS = ChessDirection.LShapedDirections();
+
     public Knight(final PieceColor color) {
-        super(color, PieceType.KNIGHT);
+        super(color);
     }
 
     @Override
@@ -19,7 +22,7 @@ public final class Knight extends Piece {
 
     public boolean isLShapeMovement(final Position source, final Position target) {
         ChessDirection chessDirection = findDirection(source, target);
-        return type.contains(chessDirection);
+        return DIRECTIONS.contains(chessDirection);
     }
 
     private ChessDirection findDirection(final Position source, final Position target) {

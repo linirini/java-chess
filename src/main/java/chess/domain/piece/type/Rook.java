@@ -2,15 +2,17 @@ package chess.domain.piece.type;
 
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
-import chess.domain.piece.PieceType;
 import chess.domain.position.ChessDirection;
 import chess.domain.position.PieceRelation;
 import chess.domain.position.Position;
 
+import java.util.Set;
+
 public final class Rook extends Piece {
+    private static final Set<ChessDirection> DIRECTIONS = ChessDirection.cross();
 
     public Rook(final PieceColor color) {
-        super(color, PieceType.ROOK);
+        super(color);
     }
 
     @Override
@@ -20,7 +22,7 @@ public final class Rook extends Piece {
 
     private boolean isMovableDirection(final Position source, final Position target) {
         ChessDirection chessDirection = findDirection(source, target);
-        return type.contains(chessDirection);
+        return DIRECTIONS.contains(chessDirection);
     }
 
     private ChessDirection findDirection(final Position source, final Position target) {

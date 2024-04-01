@@ -1,34 +1,50 @@
 package chess.domain.piece;
 
-import chess.domain.position.ChessDirection;
+import chess.domain.piece.type.*;
 
-import java.util.List;
+import java.util.Arrays;
+import java.util.function.Function;
 
 public enum PieceType {
-    PAWN(ChessDirection.combine(ChessDirection.upSide(), ChessDirection.downSide()), 1),
-    ROOK(ChessDirection.cross(), 5),
-    KNIGHT(ChessDirection.LShapedDirections(), 2.5),
-    BISHOP(ChessDirection.diagonal(), 3),
-    KING(ChessDirection.combine(ChessDirection.cross(), ChessDirection.diagonal()), 0),
-    QUEEN(ChessDirection.combine(ChessDirection.cross(), ChessDirection.diagonal()), 9);
+    BISHOP(Bishop.class, Bishop::new),
+    KING(King.class, King::new),
+    KNIGHT(Knight.class, Knight::new),
+    PAWN(Pawn.class, Pawn::new),
+    QUEEN(Queen.class, Queen::new),
+    ROOK(Rook.class, Rook::new);
 
-    private final List<ChessDirection> directions;
-    private final double score;
+    private final Class<? extends Piece> pieceClass;
+    private final Function<PieceColor, Piece> function;
 
-    PieceType(final List<ChessDirection> directions, final double score) {
-        this.directions = directions;
-        this.score = score;
+/*    private static final Map<Class<? extends Piece>, PieceType> PIECE_TYPE_OF_CLASS = new HashMap<>();
+
+    static {
+        for (PieceType pieceType : values()) {
+            PIECE_TYPE_OF_CLASS.put(pieceType.pieceClass, pieceType);
+        }
+    }*/
+
+    PieceType(final Class<? extends Piece> pieceClass, final Function<PieceColor, Piece> function) {
+        this.pieceClass = pieceClass;
+        this.function = function;
     }
 
-    public boolean contains(ChessDirection direction) {
-        return directions.contains(direction);
+    public static PieceType findType(Piece piece) {
+        return Arrays.stream(values())
+                .filter(pieceType -> pieceType.pieceClass.isInstance(piece))
+                .findFirst()
+                .orElseThrow();
     }
 
-    public double score() {
-        return score;
+    public static boolean isKing(final Piece piece) {
+        return findType(piece) == KING;
     }
 
-    public double halfScore() {
-        return score / 2;
+    public static boolean isPawn(final Piece piece) {
+        return findType(piece) == PAWN;
+    }
+
+    public Piece getPiece(PieceColor color) {
+        return this.function.apply(color);
     }
 }
