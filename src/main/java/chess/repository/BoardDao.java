@@ -23,12 +23,12 @@ public class BoardDao implements BoardRepository {
     }
 
     @Override
-    public boolean isExistByRoomId(final long roomId) {
+    public boolean existsByRoomId(final long roomId) {
         return false;
     }
 
     @Override
-    public boolean isExistByRoomIdAndPosition(final long roomId, final Position position) {
+    public boolean existsByRoomIdAndPosition(final long roomId, final Position position) {
         return false;
     }
 

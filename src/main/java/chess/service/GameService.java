@@ -39,7 +39,7 @@ public class GameService {
     }
 
     private boolean isBoardNotReady(final long roomId) {
-        return !boardRepository.isExistByRoomId(roomId);
+        return !boardRepository.existsByRoomId(roomId);
     }
 
     public void move(final ChessGame game, final String from, final String to) {
@@ -55,7 +55,7 @@ public class GameService {
                 .orElseThrow(() -> new IllegalArgumentException(PIECE_ID_NOT_FOUND));
 
         boardRepository.deleteByRoomIdAndPosition(game.roomId(), source);
-        if (boardRepository.isExistByRoomIdAndPosition(game.roomId(), target)) {
+        if (boardRepository.existsByRoomIdAndPosition(game.roomId(), target)) {
             boardRepository.deleteByRoomIdAndPosition(game.roomId(), target);
         }
 
