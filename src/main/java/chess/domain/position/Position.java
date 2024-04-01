@@ -68,9 +68,13 @@ public class Position {
         return rank.index();
     }
 
-    public String valueOfRank(){return rank.value();}
+    public String valueOfRank() {
+        return rank.value();
+    }
 
-    public String valueOfFile(){return file.value();}
+    public String valueOfFile() {
+        return file.value();
+    }
 
     @Override
     public int hashCode() {

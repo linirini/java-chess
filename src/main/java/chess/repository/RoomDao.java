@@ -82,13 +82,6 @@ public class RoomDao implements RoomRepository {
         }
     }
 
-    private Room createRoom(final ResultSet resultSet) throws SQLException {
-        return new Room(
-                resultSet.getLong("room_id"),
-                new Name(resultSet.getString("name"))
-        );
-    }
-
     @Override
     public Optional<Turn> findTurnById(final long roomId) {
         final String query = "SELECT turn FROM room WHERE room_id = ?";
@@ -114,5 +107,12 @@ public class RoomDao implements RoomRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private Room createRoom(final ResultSet resultSet) throws SQLException {
+        return new Room(
+                resultSet.getLong("room_id"),
+                new Name(resultSet.getString("name"))
+        );
     }
 }
