@@ -14,7 +14,7 @@ class RoomTest {
     @ValueSource(strings = {"a", "aaaaaaaaaa"})
     void createRoom(String name) {
         //when & then
-        assertThatCode(() -> Room.of(name)).doesNotThrowAnyException();
+        assertThatCode(() -> Room.from(name)).doesNotThrowAnyException();
     }
 
     @DisplayName("이름 길이가 1 미만, 10 초과이면 예외를 던진다.")
@@ -22,7 +22,7 @@ class RoomTest {
     @ValueSource(strings = {"", "aaaaaaaaaaa"})
     void createInvalidRoom(String name) {
         //when & then
-        assertThatThrownBy(() -> Room.of(name))
+        assertThatThrownBy(() -> Room.from(name))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이름은 1자 이상, 10자 이하만 가능합니다.");
     }

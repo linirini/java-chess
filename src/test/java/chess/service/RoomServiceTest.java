@@ -31,7 +31,7 @@ class RoomServiceTest {
     void findIdByName() {
         //given
         String name = "리니방";
-        Room room = Room.of(name);
+        Room room = Room.from(name);
         long id = roomRepository.save(room, turn);
 
         //when
@@ -63,7 +63,7 @@ class RoomServiceTest {
         roomService.create(name);
 
         //then
-        assertThat(roomRepository.isExistName(name)).isTrue();
+        assertThat(roomRepository.existsByName(name)).isTrue();
     }
 
     @DisplayName("중복된 이름으로 방을 생성하려고 하면 예외를 발생시킨다.")
@@ -71,7 +71,7 @@ class RoomServiceTest {
     void createDuplicatedRoom() {
         //given
         String name = "리니방";
-        Room room = Room.of(name);
+        Room room = Room.from(name);
         roomRepository.save(room, turn);
 
         //when & then
@@ -86,7 +86,7 @@ class RoomServiceTest {
         //given
         List<String> names = List.of("리니방", "포비방", "찰리방");
         for (final String name : names) {
-            Room room = Room.of(name);
+            Room room = Room.from(name);
             roomRepository.save(room, turn);
         }
 

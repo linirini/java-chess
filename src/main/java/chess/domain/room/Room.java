@@ -5,7 +5,7 @@ import chess.domain.Name;
 public class Room {
     private static final int MINIMUM_NAME_LENGTH = 1;
     private static final int MAXIMUM_NAME_LENGTH = 10;
-    private static final String INVALID_NAME_LENGTH = String.format("이름은 %d자 이상, %d자 이하만 가능합니다.",MINIMUM_NAME_LENGTH,MAXIMUM_NAME_LENGTH);
+    private static final String INVALID_NAME_LENGTH = String.format("이름은 %d자 이상, %d자 이하만 가능합니다.", MINIMUM_NAME_LENGTH, MAXIMUM_NAME_LENGTH);
     private final Long id;
     private final Name name;
 
@@ -14,7 +14,7 @@ public class Room {
         this.name = name;
     }
 
-    public static Room of(final String name) {
+    public static Room from(final String name) {
         validateName(name);
         return new Room(null, new Name(name));
     }

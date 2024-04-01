@@ -32,7 +32,7 @@ public class FakeRoomDao implements RoomRepository {
     }
 
     @Override
-    public boolean isExistName(final String name) {
+    public boolean existsByName(final String name) {
         return rooms.values().stream().anyMatch(room -> room.getName().equals(name));
     }
 

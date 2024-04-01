@@ -11,7 +11,7 @@ public interface RoomRepository {
 
     Optional<Long> findIdByName(final String name);
 
-    boolean isExistName(final String name);
+    boolean existsByName(final String name);
 
     List<Room> findAll();
 
