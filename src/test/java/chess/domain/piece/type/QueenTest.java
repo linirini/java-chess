@@ -2,7 +2,7 @@ package chess.domain.piece.type;
 
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
-import chess.domain.position.PieceRelation;
+import chess.domain.piece.PieceRelation;
 import chess.domain.position.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;

@@ -1,6 +1,5 @@
 package chess.domain.piece;
 
-import chess.domain.position.PieceRelation;
 import chess.domain.position.Position;
 
 public abstract class Piece {

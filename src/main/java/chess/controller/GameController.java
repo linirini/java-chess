@@ -4,8 +4,8 @@ import chess.controller.command.Command;
 import chess.controller.command.CommandFactory;
 import chess.domain.game.ChessGame;
 import chess.dto.CommandInfo;
-import chess.dto.CommandType;
 import chess.service.GameService;
+import chess.view.CommandType;
 import chess.view.InputView;
 import chess.view.OutputView;
 

@@ -1,4 +1,4 @@
-package chess.dto;
+package chess.view;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,6 +1,6 @@
 package chess.controller.command;
 
-import chess.dto.CommandType;
+import chess.view.CommandType;
 
 import java.util.HashMap;
 import java.util.Map;

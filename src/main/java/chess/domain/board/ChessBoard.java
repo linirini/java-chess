@@ -3,7 +3,7 @@ package chess.domain.board;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
 import chess.domain.position.ChessDirection;
-import chess.domain.position.PieceRelation;
+import chess.domain.piece.PieceRelation;
 import chess.domain.position.Position;
 
 import java.util.*;
