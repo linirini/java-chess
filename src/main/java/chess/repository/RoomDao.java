@@ -45,7 +45,7 @@ public class RoomDao implements RoomRepository {
         final String query = "SELECT room_id FROM room WHERE name = ?";
         try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, name);
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return Optional.of(resultSet.getLong("room_id"));
             }
@@ -60,7 +60,7 @@ public class RoomDao implements RoomRepository {
         final String query = "SELECT * FROM room WHERE name = ?";
         try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, name);
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             return resultSet.next();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -71,7 +71,7 @@ public class RoomDao implements RoomRepository {
     public List<Room> findAll() {
         final String query = "SELECT * FROM room";
         try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             List<Room> rooms = new ArrayList<>();
             if (resultSet.next()) {
                 rooms.add(createRoom(resultSet));
@@ -82,12 +82,19 @@ public class RoomDao implements RoomRepository {
         }
     }
 
+    private Room createRoom(final ResultSet resultSet) throws SQLException {
+        return new Room(
+                resultSet.getLong("room_id"),
+                new Name(resultSet.getString("name"))
+        );
+    }
+
     @Override
     public Optional<Turn> findTurnById(final long roomId) {
         final String query = "SELECT turn FROM room WHERE room_id = ?";
         try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, roomId);
-            ResultSet resultSet = preparedStatement.getResultSet();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return Optional.of(createTurn(resultSet.getString("turn")));
             }
@@ -107,12 +114,5 @@ public class RoomDao implements RoomRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private Room createRoom(final ResultSet resultSet) throws SQLException {
-        return new Room(
-                resultSet.getLong("room_id"),
-                new Name(resultSet.getString("name"))
-        );
     }
 }
