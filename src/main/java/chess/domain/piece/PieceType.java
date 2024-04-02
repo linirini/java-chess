@@ -16,14 +16,6 @@ public enum PieceType {
     private final Class<? extends Piece> pieceClass;
     private final Function<PieceColor, Piece> function;
 
-/*    private static final Map<Class<? extends Piece>, PieceType> PIECE_TYPE_OF_CLASS = new HashMap<>();
-
-    static {
-        for (PieceType pieceType : values()) {
-            PIECE_TYPE_OF_CLASS.put(pieceType.pieceClass, pieceType);
-        }
-    }*/
-
     PieceType(final Class<? extends Piece> pieceClass, final Function<PieceColor, Piece> function) {
         this.pieceClass = pieceClass;
         this.function = function;
