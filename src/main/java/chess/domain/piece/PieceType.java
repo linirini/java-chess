@@ -36,14 +36,6 @@ public enum PieceType {
                 .orElseThrow();
     }
 
-    public static boolean isKing(final Piece piece) {
-        return findType(piece) == KING;
-    }
-
-    public static boolean isPawn(final Piece piece) {
-        return findType(piece) == PAWN;
-    }
-
     public Piece getPiece(PieceColor color) {
         return this.function.apply(color);
     }

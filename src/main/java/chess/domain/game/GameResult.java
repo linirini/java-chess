@@ -4,7 +4,6 @@ import chess.domain.Score;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
 import chess.domain.piece.PieceScore;
-import chess.domain.piece.PieceType;
 import chess.domain.position.ChessFile;
 import chess.domain.position.Position;
 
@@ -30,7 +29,7 @@ public class GameResult {
     private double scoreExceptPawn(final PieceColor color) {
         double totalScore = 0;
         List<Piece> pieces = this.pieces.values().stream()
-                .filter(piece -> piece.isColor(color) && !PieceType.isPawn(piece))
+                .filter(piece -> piece.isColor(color) && !piece.isPawn())
                 .toList();
         for (final Piece piece : pieces) {
             totalScore += PieceScore.findScore(piece).value();
@@ -66,7 +65,7 @@ public class GameResult {
 
     private int countPawns(final PieceColor color, final ChessFile file) {
         return (int) pieces.entrySet().stream()
-                .filter(entry -> entry.getKey().isFile(file) && entry.getValue().isColor(color) && PieceType.isPawn(entry.getValue()))
+                .filter(entry -> entry.getKey().isFile(file) && entry.getValue().isColor(color) && entry.getValue().isPawn())
                 .count();
     }
 
@@ -79,7 +78,7 @@ public class GameResult {
 
     private Piece findKing() {
         return pieces.values().stream()
-                .filter(PieceType::isKing)
+                .filter(Piece::isKing)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(NO_KING));
     }
@@ -98,7 +97,7 @@ public class GameResult {
 
     public boolean isKingAttacked() {
         long count = pieces.values().stream()
-                .filter(PieceType::isKing)
+                .filter(Piece::isKing)
                 .count();
         return count != KING_COUNT;
     }

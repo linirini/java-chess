@@ -11,6 +11,14 @@ public abstract class Piece {
 
     public abstract boolean isMovable(final Position source, final Position target, final PieceRelation pieceRelation);
 
+    public boolean isKing() {
+        return false;
+    }
+
+    public boolean isPawn() {
+        return false;
+    }
+
     public boolean isColor(final PieceColor color) {
         return this.color == color;
     }

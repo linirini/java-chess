@@ -22,6 +22,11 @@ public final class Pawn extends Piece {
         return isMovableDirection(source, target, pieceRelation) && isMovableDistance(source, target);
     }
 
+    @Override
+    public boolean isPawn() {
+        return true;
+    }
+
     private boolean isMovableDirection(final Position source, final Position target, final PieceRelation pieceRelation) {
         if (pieceRelation.isEnemy()) {
             return canAttack(source, target);

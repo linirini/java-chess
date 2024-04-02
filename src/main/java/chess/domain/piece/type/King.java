@@ -20,6 +20,11 @@ public final class King extends Piece {
         return isMovableDirection(source, target) && isMovableDistance(source, target);
     }
 
+    @Override
+    public boolean isKing() {
+        return false;
+    }
+
     private boolean isMovableDirection(final Position source, final Position target) {
         ChessDirection chessDirection = findDirection(source, target);
         return DIRECTIONS.contains(chessDirection);
