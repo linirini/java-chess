@@ -13,11 +13,6 @@ import java.util.Optional;
 
 public class RoomDao implements RoomRepository {
     private static final String SAVE_FAILURE = "방 정보 저장에 실패하였습니다";
-    private final Connection connection;
-
-    public RoomDao() {
-        this.connection = DBConnection.getConnection();
-    }
 
     private static Turn createTurn(final String turn) throws SQLException {
         return new Turn(PieceColor.valueOf(turn));
@@ -26,7 +21,8 @@ public class RoomDao implements RoomRepository {
     @Override
     public long save(final Room room, final Turn turn) {
         final String query = "INSERT INTO room (name, turn) VALUES(?, ?)";
-        try (final PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection connection = DBConnection.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, room.getName());
             preparedStatement.setString(2, turn.getTurn().name());
             preparedStatement.executeUpdate();
@@ -43,7 +39,8 @@ public class RoomDao implements RoomRepository {
     @Override
     public boolean existsByName(final String name) {
         final String query = "SELECT * FROM room WHERE name = ?";
-        try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (Connection connection = DBConnection.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, name);
             ResultSet resultSet = preparedStatement.executeQuery();
             return resultSet.next();
@@ -55,7 +52,8 @@ public class RoomDao implements RoomRepository {
     @Override
     public List<Room> findAll() {
         final String query = "SELECT * FROM room";
-        try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (Connection connection = DBConnection.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Room> rooms = new ArrayList<>();
             if (resultSet.next()) {
@@ -70,7 +68,8 @@ public class RoomDao implements RoomRepository {
     @Override
     public Optional<Long> findIdByName(final String name) {
         final String query = "SELECT room_id FROM room WHERE name = ?";
-        try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (Connection connection = DBConnection.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, name);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -85,7 +84,8 @@ public class RoomDao implements RoomRepository {
     @Override
     public Optional<Turn> findTurnById(final long roomId) {
         final String query = "SELECT turn FROM room WHERE room_id = ?";
-        try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (Connection connection = DBConnection.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, roomId);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -100,7 +100,8 @@ public class RoomDao implements RoomRepository {
     @Override
     public void updateTurnByRoomId(final long roomId, final Turn turn) {
         final String query = "UPDATE room SET turn = ? WHERE room_id = ?";
-        try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (Connection connection = DBConnection.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, turn.getTurn().name());
             preparedStatement.setLong(2, roomId);
             preparedStatement.executeUpdate();
