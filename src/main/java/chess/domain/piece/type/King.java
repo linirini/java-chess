@@ -22,7 +22,7 @@ public final class King extends Piece {
 
     @Override
     public boolean isKing() {
-        return false;
+        return true;
     }
 
     private boolean isMovableDirection(final Position source, final Position target) {
