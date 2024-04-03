@@ -11,7 +11,7 @@ import chess.repository.RoomRepository;
 import java.util.Map;
 
 public class GameService {
-    private static final String PIECE_ID_NOT_FOUND = "해당 위치의 기물 정보를 찾을 수 없습니다.";
+    private static final String PIECE_NOT_FOUND = "해당 위치의 기물 정보를 찾을 수 없습니다.";
     private final BoardRepository boardRepository;
     private final RoomRepository roomRepository;
 
@@ -51,14 +51,14 @@ public class GameService {
     }
 
     private void updateMovement(final ChessGame game, final Position source, final Position target) {
-        long pieceId = boardRepository.findPieceIdByRoomIdAndPosition(game.roomId(), source)
-                .orElseThrow(() -> new IllegalArgumentException(PIECE_ID_NOT_FOUND));
+        Piece piece = boardRepository.findPieceByRoomIdAndPosition(game.roomId(), source)
+                .orElseThrow(() -> new IllegalArgumentException(PIECE_NOT_FOUND));
 
         boardRepository.deleteByRoomIdAndPosition(game.roomId(), source);
         if (boardRepository.existsByRoomIdAndPosition(game.roomId(), target)) {
             boardRepository.deleteByRoomIdAndPosition(game.roomId(), target);
         }
 
-        boardRepository.save(target, pieceId, game.roomId());
+        boardRepository.save(target, piece, game.roomId());
     }
 }

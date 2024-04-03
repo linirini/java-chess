@@ -69,7 +69,7 @@ class GameServiceTest {
         //then
         assertAll(
                 () -> assertThat(game.turn().getTurn()).isEqualTo(expectedTurn.getTurn()),
-                () -> assertThat(game.getBoardStatus().pieceInfos()).hasSize(pieces.size())
+                () -> assertThat(game.getBoardStatus().piecePositionInfos()).hasSize(pieces.size())
         );
     }
 
@@ -86,7 +86,7 @@ class GameServiceTest {
         //then
         assertAll(
                 () -> assertThat(game.turn().getTurn()).isEqualTo(Turn.first().getTurn()),
-                () -> assertThat(game.getBoardStatus().pieceInfos()).hasSize(initialPieceCount)
+                () -> assertThat(game.getBoardStatus().piecePositionInfos()).hasSize(initialPieceCount)
         );
     }
 
@@ -104,8 +104,8 @@ class GameServiceTest {
 
         //then
         assertAll(
-                () -> assertThat(boardRepository.findPieceIdByRoomIdAndPosition(roomId, Position.of(source))).isEmpty(),
-                () -> assertThat(boardRepository.findPieceIdByRoomIdAndPosition(roomId, Position.of(target))).isPresent(),
+                () -> assertThat(boardRepository.findPieceByRoomIdAndPosition(roomId, Position.of(source))).isEmpty(),
+                () -> assertThat(boardRepository.findPieceByRoomIdAndPosition(roomId, Position.of(target))).isPresent(),
                 () -> assertThat(roomRepository.findTurnById(roomId).get().getTurn()).isEqualTo(expectedTurn.getTurn())
         );
     }

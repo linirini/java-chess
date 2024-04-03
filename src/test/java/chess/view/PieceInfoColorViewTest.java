@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
-class PieceColorViewTest {
+class PieceInfoColorViewTest {
 
     @DisplayName("모든 PieceColor에 대응되는 PieceColorView를 이름으로 찾을 수 있다.")
     @Test

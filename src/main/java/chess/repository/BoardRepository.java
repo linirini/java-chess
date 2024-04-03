@@ -9,15 +9,13 @@ import java.util.Optional;
 public interface BoardRepository {
     void save(final Position position, final Piece piece, final long roomId);
 
-    void save(final Position position, final Long pieceId, final long roomId);
-
     boolean existsByRoomId(final long roomId);
 
     boolean existsByRoomIdAndPosition(final long roomId, final Position position);
 
     Map<Position, Piece> findPositionAndPieceByRoomId(final long roomId);
 
-    Optional<Long> findPieceIdByRoomIdAndPosition(final long roomId, final Position position);
+    Optional<Piece> findPieceByRoomIdAndPosition(final long roomId, final Position position);
 
     void deleteByRoomIdAndPosition(final long roomId, final Position position);
 }

@@ -57,11 +57,9 @@ public class OutputView {
     }
 
     private void applyBoardStatus(final BoardStatus status, final String[][] board) {
-        for (PieceInfo pieceInfo : status.pieceInfos()) {
-            PieceColorView color = PieceColorView.find(pieceInfo.pieceColor());
-            String name = PieceTypeView.findViewName(pieceInfo.pieceType());
-            String pieceName = PieceNamePattern.apply(color, name);
-            board[ChessRank.maxIndex() - pieceInfo.rankIndex()][pieceInfo.fileIndex()] = pieceName;
+        for (PieceInfo piecePositionInfo : status.piecePositionInfos()) {
+            String name = PieceTypeView.findViewName(piecePositionInfo.pieceType());
+            board[ChessRank.maxIndex() - piecePositionInfo.rankIndex()][piecePositionInfo.fileIndex()] = name;
         }
     }
 
