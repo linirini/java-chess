@@ -22,6 +22,8 @@ public class CommandFactory {
         commands.put(CommandType.MOVE, new MoveCommand());
         commands.put(CommandType.STATUS, new StatusCommand());
         commands.put(CommandType.END, new EndCommand());
+        commands.put(CommandType.CREATE, new CreateCommand());
+        commands.put(CommandType.ENTER, new EnterCommand());
         return commands;
     }
 }
