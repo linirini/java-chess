@@ -56,7 +56,7 @@ public class RoomDao implements RoomRepository {
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Room> rooms = new ArrayList<>();
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 rooms.add(createRoom(resultSet));
             }
             return rooms;
