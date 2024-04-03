@@ -1,5 +1,7 @@
-package chess.domain.piece;
+package chess.dto;
 
+import chess.domain.piece.Piece;
+import chess.domain.piece.PieceColor;
 import chess.domain.piece.type.*;
 
 import java.util.Arrays;

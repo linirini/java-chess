@@ -3,7 +3,7 @@ package chess.repository;
 import chess.db.DBConnection;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
-import chess.domain.piece.PieceType;
+import chess.dto.PieceType;
 import chess.domain.position.Position;
 
 import java.sql.Connection;

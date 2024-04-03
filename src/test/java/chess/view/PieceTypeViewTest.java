@@ -1,6 +1,6 @@
 package chess.view;
 
-import chess.domain.piece.PieceType;
+import chess.dto.PieceType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

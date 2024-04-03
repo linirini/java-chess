@@ -1,7 +1,6 @@
 package chess.dto;
 
 import chess.domain.piece.Piece;
-import chess.domain.piece.PieceType;
 import chess.domain.position.Position;
 
 public record PieceInfo(int fileIndex, int rankIndex, String pieceType, String pieceColor) {
