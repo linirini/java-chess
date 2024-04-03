@@ -1,10 +1,14 @@
 package chess.controller;
 
+import chess.controller.command.Command;
+import chess.controller.command.CommandFactory;
 import chess.dto.CommandInfo;
 import chess.service.RoomService;
+import chess.view.CommandType;
 import chess.view.InputView;
 import chess.view.OutputView;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -14,12 +18,14 @@ public class RoomController {
     private final OutputView outputView;
     private final RoomService roomService;
     private final GameController gameController;
+    private final Map<CommandType, Command> commands;
 
     public RoomController(final InputView inputView, final OutputView outputView, final RoomService roomService, final GameController gameController) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.roomService = roomService;
         this.gameController = gameController;
+        commands = CommandFactory.getInstance().create();
     }
 
     public void enter() {
@@ -31,19 +37,12 @@ public class RoomController {
     private void enterGame() {
         CommandInfo commandInfo = requestUntilValid(this::requestRoom);
         try {
-            long id = findRoom(commandInfo);
+            long id = commands.get(commandInfo.type()).execute(commandInfo, roomService);
             gameController.run(id);
         } catch (IllegalArgumentException e) {
             outputView.printGameErrorMessage(e.getMessage());
             enterGame();
         }
-    }
-
-    private long findRoom(final CommandInfo commandInfo) {
-        if (commandInfo.type().isEnter()) {
-            return roomService.findIdByName(commandInfo.arguments().get(0));
-        }
-        return roomService.create(commandInfo.arguments().get(0));
     }
 
     private CommandInfo requestRoom() {

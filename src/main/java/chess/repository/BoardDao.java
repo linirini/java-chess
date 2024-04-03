@@ -73,10 +73,6 @@ public class BoardDao implements BoardRepository {
         }
     }
 
-    private Position createPosition(final ResultSet resultSet) throws SQLException {
-        return Position.of(resultSet.getString("position"));
-    }
-
     @Override
     public Optional<Piece> findPieceByRoomIdAndPosition(final long roomId, final Position position) {
         final String query = "SELECT piece_type FROM board WHERE room_id = ? AND position = ?";
@@ -94,12 +90,6 @@ public class BoardDao implements BoardRepository {
         }
     }
 
-    private Piece createPiece(final ResultSet resultSet) throws SQLException {
-        PieceType pieceType = PieceType.valueOf(resultSet.getString("piece_type"));
-
-        return pieceType.getPiece();
-    }
-
     @Override
     public void deleteByRoomIdAndPosition(final long roomId, final Position position) {
         final String query = "DELETE FROM board WHERE room_id = ? AND position = ?";
@@ -111,6 +101,16 @@ public class BoardDao implements BoardRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private Position createPosition(final ResultSet resultSet) throws SQLException {
+        return Position.of(resultSet.getString("position"));
+    }
+
+    private Piece createPiece(final ResultSet resultSet) throws SQLException {
+        PieceType pieceType = PieceType.valueOf(resultSet.getString("piece_type"));
+
+        return pieceType.getPiece();
     }
 
     private String convertPosition(Position position) {
