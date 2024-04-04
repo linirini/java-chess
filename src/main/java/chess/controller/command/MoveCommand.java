@@ -10,10 +10,14 @@ public class MoveCommand implements Command {
     private static final int SOURCE_INDEX = 0;
     private static final int TARGET_INDEX = 1;
     private static final String NOT_IN_GAME_YET = "아직 게임에 입장하지 않았습니다.";
+    private static final String GAME_ALREADY_TERMINATED = "이미 종료된 게임입니다. status 확인만 가능합니다.";
 
 
     @Override
     public void execute(final ChessGame game, final CommandInfo commandInfo, final OutputView outputView, final GameService gameService) {
+        if (game.isTerminated()) {
+            throw new IllegalArgumentException(GAME_ALREADY_TERMINATED);
+        }
         gameService.move(game, commandInfo.arguments().get(SOURCE_INDEX), commandInfo.arguments().get(TARGET_INDEX));
         outputView.printChessBoard(game.getBoardStatus());
     }

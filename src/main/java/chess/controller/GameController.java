@@ -58,9 +58,6 @@ public class GameController {
         CommandInfo commandInfo = requestUntilValid(this::readCommandInfo);
         while (!commandInfo.type().isEnd()) {
             executeCommand(game, commandInfo);
-            if (game.isTerminated()) {
-                break;
-            }
             commandInfo = requestUntilValid(this::readCommandInfo);
         }
     }
