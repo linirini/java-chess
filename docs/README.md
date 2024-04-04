@@ -1,4 +1,15 @@
-# TODO: 자세한 값이 아닌 문장으로 변경
+# 체스 게임
+
+## 실행 가이드
+
+### DB 초기화
+`docker-compose -p chess up -d` 실행
+
+### 애플리케이션 실행
+ChessApplication 의 main 함수 실행
+
+
+## 기능 요구사항
 
 ### 입출력 기능
 
