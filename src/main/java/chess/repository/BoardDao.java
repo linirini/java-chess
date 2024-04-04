@@ -3,7 +3,6 @@ package chess.repository;
 import chess.db.DBConnection;
 import chess.domain.piece.Piece;
 import chess.domain.position.Position;
-import chess.dto.PieceType;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
